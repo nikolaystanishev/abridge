@@ -1,4 +1,5 @@
 import argparse
+from abridge.fetch.twitter_fetcher import TwitterFetcher
 
 from abridge.util.sh import register_postactions, sh
 
@@ -15,6 +16,7 @@ def setup():
 
     optional.add_argument('-bootstrap', help='Migrate Django', action='store_true')
     optional.add_argument('-start-web', help='Start backend and UI servers.', action='store_true')
+    optional.add_argument('-fetch', help='Fetch data API.', metavar='PLATFORM', choices=['twitter'])
 
     return parser
 
@@ -28,6 +30,19 @@ def start_web():
     sh('yarn --cwd web/ui start')
 
 
+def fetch(platform):
+    if platform == 'twitter':
+        fetcher = TwitterFetcher()
+
+    request = fetcher.get_empty_request()
+    for k in request.keys():
+        print('Insert ' + k.literal + ': ', end='')
+        value = input()
+        if value != '':
+            request[k].extend(value.split('|'))
+    print(fetcher.fetch(request))
+
+
 if __name__ == '__main__':
     parser = setup()
     register_postactions()
@@ -37,3 +52,5 @@ if __name__ == '__main__':
         bootstrap()
     elif args.start_web:
         start_web()
+    elif args.fetch:
+        fetch(args.fetch)
