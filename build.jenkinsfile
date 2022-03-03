@@ -1,0 +1,12 @@
+pipeline {
+    agent { label 'exc' }
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    checkout scm
+                }
+            }
+        }
+    }
+}
