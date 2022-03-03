@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent exc
     stages {
         stage('Checkout') {
             steps {
