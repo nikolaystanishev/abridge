@@ -1,3 +1,5 @@
+conda activate abridge
+
 rm -rf coverage/ && mkdir coverage
 
 py.test -v --cov-config coveragerc \
