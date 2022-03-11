@@ -18,8 +18,7 @@ RUN /opt/conda/bin/conda init bash
 
 ADD ${SOURCE_DIR}/ environment.yml /
 
-RUN /opt/conda/bin/conda create -c conda-forge \
-    --name abridge --file /environment.yml
+RUN /opt/conda/bin/conda env create --name abridge --file /environment.yml
 RUN echo "conda activate abridge" >> ~/.bashrc
 
 RUN mkdir /code
