@@ -1,5 +1,13 @@
 pipeline {
     agent { label 'exc' }
+
+    environment {
+        DOCKER_IMAGE = "aovek/abridge:${env.BRANCH_NAME}"
+
+        SOURCE_DIR = "${env.WORKSPACE}"
+        DOCKER_SOURCE_DIR = '/'
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -8,15 +16,7 @@ pipeline {
                 }
             }
         }
-    }
 
-    environment {
-        DOCKER_IMAGE = "aovek/abridge:${env.BRANCH_NAME}"
-
-        SOURCE_DIR = "${env.WORKSPACE}"
-        DOCKER_SOURCE_DIR = '/'
-    }
-    stages {
         stage('Clean') {
             steps {
                 sh '''
@@ -57,6 +57,7 @@ pipeline {
             }
         }
     }
+
     post {
         always {
             junit 'coverage/web-junit.xml'
