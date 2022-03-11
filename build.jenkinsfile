@@ -9,4 +9,66 @@ pipeline {
             }
         }
     }
+
+    environment {
+        DOCKER_IMAGE = "aovek/abridge:${env.BRANCH_NAME}"
+
+        SOURCE_DIR = "${env.WORKSPACE}"
+        DOCKER_SOURCE_DIR = '/'
+    }
+    stages {
+        stage('Clean') {
+            steps {
+                sh '''
+                    docker-compose -f docker-compose.yml down
+                '''
+            }
+        }
+
+        stage('Setup') {
+            steps {
+                script {
+                    docker.build("${DOCKER_IMAGE}", ". -f ${SOURCE_DIR}/Dockerfile")
+                }
+            }
+        }
+
+        stage('Prepare') {
+            steps {
+                sh '''
+                    docker-compose -f docker-compose.yml up -d
+                '''
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                sh '''
+                    docker-compose -f docker-compose.yml exec -T tests /code/jenkins/jenkins_flake8.sh
+                '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh '''
+                    docker-compose -f docker-compose.yml exec -T tests /code/jenkins/jenkins_test.sh
+                '''
+            }
+        }
+    }
+    post {
+        always {
+            junit 'coverage/web-junit.xml'
+            step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage/coverage.xml'])
+            warnings(
+        parserConfigurations: [[parserName: 'PyLint', pattern: 'pyflakes.report']],
+        excludePattern: '.*site-packages.*',
+        usePreviousBuildAsReference: true,
+      )
+            sh '''
+                docker-compose -f docker-compose.yml down
+            '''
+        }
+    }
 }
