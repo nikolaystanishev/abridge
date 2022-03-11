@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE = "aovek/abridge:${env.BRANCH_NAME}"
 
         SOURCE_DIR = "${env.WORKSPACE}"
-        DOCKER_SOURCE_DIR = '/'
+        DOCKER_SOURCE_DIR = '/code'
     }
 
     stages {
