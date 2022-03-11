@@ -2,6 +2,8 @@ pipeline {
     agent { label 'exc' }
 
     environment {
+        PATH = "C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\bin;${env.PATH}"
+
         DOCKER_IMAGE = "aovek/abridge:${env.BRANCH_NAME}"
 
         SOURCE_DIR = "${env.WORKSPACE}"
