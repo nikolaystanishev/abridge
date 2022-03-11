@@ -2,8 +2,6 @@ pipeline {
     agent { label 'exc' }
 
     environment {
-        PATH = "C:\\Program Files\\Git\\usr\\bin;C:\\Program Files\\Git\\bin;${env.PATH}"
-
         DOCKER_IMAGE = "aovek/abridge:${env.BRANCH_NAME}"
 
         SOURCE_DIR = "${env.WORKSPACE}"
@@ -21,7 +19,7 @@ pipeline {
 
         stage('Clean') {
             steps {
-                sh '''
+                bat '''
                     docker-compose -f docker-compose.yml down
                 '''
             }
@@ -37,7 +35,7 @@ pipeline {
 
         stage('Prepare') {
             steps {
-                sh '''
+                bat '''
                     docker-compose -f docker-compose.yml up -d
                 '''
             }
@@ -45,7 +43,7 @@ pipeline {
 
         stage('Lint') {
             steps {
-                sh '''
+                bat '''
                     docker-compose -f docker-compose.yml exec -T tests /code/jenkins/jenkins_flake8.sh
                 '''
             }
@@ -53,7 +51,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh '''
+                bat '''
                     docker-compose -f docker-compose.yml exec -T tests /code/jenkins/jenkins_test.sh
                 '''
             }
@@ -69,7 +67,7 @@ pipeline {
         excludePattern: '.*site-packages.*',
         usePreviousBuildAsReference: true,
       )
-            sh '''
+            bat '''
                 docker-compose -f docker-compose.yml down
             '''
         }
