@@ -3,7 +3,7 @@ FROM amd64/ubuntu:latest
 ARG SOURCE_DIR="."
 
 RUN apt-get update --fix-missing && \ 
-	apt-get install wget && \
+	apt-get install -y wget && \
 	apt-get clean
 
 
