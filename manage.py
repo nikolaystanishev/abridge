@@ -1,7 +1,7 @@
 import argparse
-from abridge.fetch.twitter_fetcher import TwitterFetcher
 
-from abridge.util.sh import register_postactions, sh
+from abridge.fetch.twitter_fetcher import TwitterFetcher
+from abridge.util.sh import bootstrap, register_postactions, sh, start_web
 
 
 def setup():
@@ -14,20 +14,13 @@ def setup():
     # required = parser.add_argument_group('required arguments')
     optional = parser.add_argument_group('optional arguments')
 
-    optional.add_argument('-bootstrap', help='Migrate Django', action='store_true')
-    optional.add_argument('-start-web', help='Start backend and UI servers.', action='store_true')
+    optional.add_argument('-bootstrap', help='Bootstrap applications.', action='store_true')
+    optional.add_argument('-start-web', help='Start server.', action='store_true')
     optional.add_argument('-fetch', help='Fetch data API.', metavar='PLATFORM', choices=['twitter'])
+    optional.add_argument('-save-env', help='Save conda environment to file.', action='store_true')
+    optional.add_argument('-test-web', help='Test web.', action='store_true')
 
     return parser
-
-
-def bootstrap():
-    sh('python3 web/backend/manage.py migrate')
-
-
-def start_web():
-    sh('python3 web/backend/manage.py runserver &')
-    sh('yarn --cwd web/ui start')
 
 
 def fetch(platform):
@@ -43,6 +36,14 @@ def fetch(platform):
     print(fetcher.fetch(request))
 
 
+def save_env():
+    sh('conda env export > environment.yml')
+
+
+def test_web():
+    sh('pytest web')
+
+
 if __name__ == '__main__':
     parser = setup()
     register_postactions()
@@ -54,3 +55,7 @@ if __name__ == '__main__':
         start_web()
     elif args.fetch:
         fetch(args.fetch)
+    elif args.save_env:
+        save_env()
+    elif args.test_web:
+        test_web()
