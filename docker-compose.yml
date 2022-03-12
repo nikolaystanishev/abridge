@@ -6,3 +6,4 @@ services:
       - type: bind
         source: ${SOURCE_DIR}
         target: ${DOCKER_SOURCE_DIR}
+    command: tail -f /dev/null
