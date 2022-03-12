@@ -30,7 +30,7 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 
 RUN apt-get update && apt-get install -y nodejs yarn
 
-RUN cd web/frontend/templates/frontend/
+RUN cd code/web/frontend/templates/frontend/
 RUN rm -rf node_modules
 RUN yarn install
 RUN cd -
