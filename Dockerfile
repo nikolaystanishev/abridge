@@ -6,9 +6,7 @@ RUN apt-get update --fix-missing && \
 	apt-get install -y wget && \
 	apt-get clean
 
-
-# ANACONDA
-
+# PYTHON
 RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh -O /anaconda.sh && \
     /bin/bash /anaconda.sh -b -p /opt/conda && \
     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/ && \
@@ -24,5 +22,17 @@ RUN echo "conda activate abridge" >> ~/.bashrc
 RUN mkdir /code
 
 WORKDIR /code
+
+# JS
+RUN curl https://deb.nodesource.com/setup_12.x | bash
+RUN curl https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+RUN apt-get update && apt-get install -y nodejs yarn
+
+RUN cd web/frontend/templates/frontend/
+RUN rm -rf node_modules
+RUN yarn install
+RUN cd -
 
 SHELL ["/bin/bash", "-c"]
