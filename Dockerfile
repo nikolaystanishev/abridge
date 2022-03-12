@@ -21,8 +21,6 @@ RUN echo "conda activate abridge" >> ~/.bashrc
 
 RUN mkdir /code
 
-WORKDIR /code
-
 # JS
 RUN curl https://deb.nodesource.com/setup_12.x | bash
 RUN curl https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
@@ -30,9 +28,10 @@ RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources
 
 RUN apt-get update && apt-get install -y nodejs yarn
 
-RUN cd code/web/frontend/templates/frontend/
+WORKDIR ${SOURCE_DIR}/web/frontend/templates/frontend/
 RUN rm -rf node_modules
 RUN yarn install
-RUN cd -
+
+WORKDIR /code
 
 SHELL ["/bin/bash", "-c"]
