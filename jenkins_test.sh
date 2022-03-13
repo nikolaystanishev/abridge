@@ -1,5 +1,8 @@
-/opt/conda/bin/conda activate abridge
+#!/bin/bash
 
+export PATH=/opt/conda/envs/abridge/bin:$PATH
+
+cd web
 rm -rf coverage/ && mkdir coverage
 
 py.test -v --cov-config coveragerc \
@@ -11,6 +14,7 @@ py.test -v --cov-config coveragerc \
     web
 
 chmod a+rwx -R coverage
+cd -
 
 find . -name "*.pyc" -delete
 

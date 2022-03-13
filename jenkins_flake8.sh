@@ -1,4 +1,6 @@
-/opt/conda/bin/conda activate abridge
+#!/bin/bash
+
+export PATH=/opt/conda/envs/abridge/bin:$PATH
 
 flake8 --format=pylint \
     --exclude "--exclude \"*old*,*tmp*,*temp*,data-hg19*,gpf*\"" \
