@@ -68,8 +68,8 @@ pipeline {
             step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage/*coverage.xml'])
             warnings(
                 parserConfigurations: [
-                    [parserName: 'PyLint', pattern: 'pyflakes.report'],
-                    [parserName: 'JSLint', pattern: 'ts-lint-report.xml']
+                    [parserName: 'PyLint', pattern: 'coverage/pyflakes.report'],
+                    [parserName: 'JSLint', pattern: 'coverage/ts-lint-report.xml']
                 ],
                 excludePattern: '.*site-packages.*',
                 usePreviousBuildAsReference: true,

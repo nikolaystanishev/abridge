@@ -72,7 +72,9 @@
     ]
   },
   "jest-junit": {
-    "output": "coverage/junit/junit.xml",
+    "suiteName": "jest tests",
+    "outputDirectory": "./coverage",
+    "outputName": "js-junit.xml",
     "usePathForSuiteName": "true"
   }
 }
