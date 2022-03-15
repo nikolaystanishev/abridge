@@ -3,6 +3,7 @@ import signal
 import atexit
 import subprocess
 from threading import Event
+from time import sleep
 
 
 child_processes = []
@@ -20,6 +21,8 @@ def sh(command, kill=False):
 
 def start_web(wait=False):
     sh(['python3', get_file_dir() + '/../../web/manage.py', 'runserver'], True)
+
+    sleep(10)
     if wait:
         Event().wait()
 
