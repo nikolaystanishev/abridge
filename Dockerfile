@@ -3,7 +3,8 @@ FROM amd64/ubuntu:latest
 ARG SOURCE_DIR="."
 
 RUN apt-get update --fix-missing && \ 
-	apt-get install -y wget curl && \
+	apt-get install -y wget curl \
+    libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1 && \
 	apt-get clean
 
 # PYTHON
