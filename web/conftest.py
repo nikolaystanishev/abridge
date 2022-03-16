@@ -1,4 +1,3 @@
-from time import sleep
 import pytest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -14,6 +13,12 @@ def setup_django():
 
 @pytest.fixture(scope="session")
 def web_driver(setup_django):
-    driver = webdriver.Chrome(ChromeDriverManager().install())
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')
+    options.add_argument('window-size=1920x1080')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+
+    driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
     yield driver
     driver.quit()

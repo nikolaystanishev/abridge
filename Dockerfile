@@ -3,9 +3,12 @@ FROM amd64/ubuntu:latest
 ARG SOURCE_DIR="."
 
 RUN apt-get update --fix-missing && \ 
-	apt-get install -y wget curl \
-    libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1 && \
+	apt-get install -y wget curl unzip \
+    google-chrome-stable && \
 	apt-get clean
+
+RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip \
+    unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 
 # PYTHON
 RUN wget --quiet https://repo.anaconda.com/archive/Anaconda3-2021.11-Linux-x86_64.sh -O /anaconda.sh && \
