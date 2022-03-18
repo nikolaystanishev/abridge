@@ -4,7 +4,7 @@ ARG SOURCE_DIR="."
 
 
 RUN apt-get update --fix-missing && \ 
-    apt-get install -y wget curl unzip \
+    apt-get install -y wget curl unzip && \
     apt-get clean
 
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
