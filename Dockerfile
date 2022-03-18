@@ -2,14 +2,19 @@ FROM amd64/ubuntu:latest
 
 ARG SOURCE_DIR="."
 
+
+RUN apt-get update --fix-missing && \ 
+    apt-get install -y wget curl unzip \
+    apt-get clean
+
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list
 
 RUN apt-get update --fix-missing && \ 
-    apt-get install -y wget curl unzip \
-    libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1 \
+    apt-get install -y libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1 \
     chromium-browser google-chrome-stable && \
     apt-get clean
+
 
 RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip && \
     unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
