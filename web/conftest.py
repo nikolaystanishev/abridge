@@ -1,6 +1,7 @@
 import pytest
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from time import sleep
 
 from core.util.sh import start_web, register_postactions
 
@@ -9,6 +10,7 @@ from core.util.sh import start_web, register_postactions
 def setup_django():
     register_postactions()
     start_web()
+    sleep(5)
 
 
 @pytest.fixture(scope="session")
