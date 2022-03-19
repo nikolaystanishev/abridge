@@ -3,6 +3,7 @@ FROM amd64/ubuntu:latest
 ARG SOURCE_DIR="."
 
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update --fix-missing && \ 
     apt-get install -y wget curl unzip gnupg && \
