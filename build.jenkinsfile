@@ -48,7 +48,7 @@ pipeline {
         stage('Lint') {
             steps {
                 bat '''
-                    docker-compose -f docker-compose.yml exec -T tests /code/jenkins_flake8.sh
+                    docker-compose -f docker-compose.yml exec -T tests /code/jenkins_lint.sh
                 '''
             }
         }
