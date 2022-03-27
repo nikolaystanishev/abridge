@@ -2,6 +2,9 @@
 
 export PATH=/opt/conda/envs/abridge/bin:$PATH
 
+rm -rf coverage
+mkdir coverage
+
 flake8 --format=pylint \
     --exclude "--exclude \"*old*,*tmp*,*temp*,data-hg19*,gpf*\"" \
     /code > ./coverage/pyflakes.report || echo "pylint exited with $?"
