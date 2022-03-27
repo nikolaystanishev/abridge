@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+  tests:
+    image: ${DOCKER_IMAGE}
+    volumes:
+      - type: bind
+        source: ${SOURCE_DIR}
+        target: ${DOCKER_SOURCE_DIR}
+    command: tail -f /dev/null

@@ -1,6 +1,8 @@
 import os
 import signal
 import atexit
+import subprocess
+from threading import Event
 
 
 child_processes = []
@@ -11,20 +13,19 @@ def get_file_dir():
 
 
 def sh(command, kill=False):
-    pid = os.system(command)
+    pid = subprocess.Popen(command).pid
     if kill:
         child_processes.append(pid)
 
 
-def start_web(wait=True):
-    command = 'python3 ' + get_file_dir() + '/../../web/manage.py runserver'
-    if not wait:
-        command += ' &'
-    sh(command, True)
+def start_web(wait=False):
+    sh(['python3', get_file_dir() + '/../../web/manage.py', 'runserver'], True)
+    if wait:
+        Event().wait()
 
 
 def bootstrap():
-    sh('python3 ' + get_file_dir() + '/../../web/manage.py migrate')
+    sh(['python3', get_file_dir() + '/../../web/manage.py', 'migrate'])
 
 
 def register_postactions():

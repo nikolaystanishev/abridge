@@ -1,4 +1,4 @@
-from abridge.web.test.util import HOMEPAGE
+from test.util import HOMEPAGE
 
 
 def test_frontend_load(web_driver):

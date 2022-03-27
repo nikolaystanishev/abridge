@@ -1,10 +1,88 @@
 pipeline {
     agent { label 'exc' }
+
+    options {
+        disableConcurrentBuilds()
+    }
+
+    environment {
+        DOCKER_IMAGE = "aovek/abridge:${env.BRANCH_NAME}"
+
+        SOURCE_DIR = "${env.WORKSPACE}"
+        DOCKER_SOURCE_DIR = '/code'
+    }
+
     stages {
         stage('Checkout') {
             steps {
                 script {
                     checkout scm
+                }
+            }
+        }
+
+        stage('Clean') {
+            steps {
+                bat '''
+                    docker-compose -f docker-compose.yml down
+                '''
+            }
+        }
+
+        stage('Setup') {
+            steps {
+                script {
+                    docker.build("${DOCKER_IMAGE}", ". -f ${SOURCE_DIR}/dev.dockerfile")
+                }
+            }
+        }
+
+        stage('Prepare') {
+            steps {
+                bat '''
+                    docker-compose -f docker-compose.yml up -d
+                '''
+            }
+        }
+
+        stage('Lint') {
+            steps {
+                bat '''
+                    docker-compose -f docker-compose.yml exec -T tests /code/jenkins_lint.sh
+                '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat '''
+                    docker-compose -f docker-compose.yml exec -T tests /code/jenkins_test.sh
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            junit 'coverage/web-junit.xml, coverage/js-junit.xml'
+            step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage/web-coverage.xml'])
+
+            recordIssues(
+                enabledForFailure: true,
+                aggregatingResults: false,
+                tools: [
+                    flake8(pattern: 'coverage/pyflakes.report', reportEncoding: 'UTF-8'),
+                    esLint(pattern: 'coverage/ts-lint-report.xml', reportEncoding: 'UTF-8')
+                ]
+            )
+
+            script {
+                try {
+                    bat '''
+                        docker-compose -f docker-compose.yml down
+                    '''
+                } catch (Exception e) {
+                    echo 'Exception occurred: ' + e.toString()
                 }
             }
         }

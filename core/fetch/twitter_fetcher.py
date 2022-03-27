@@ -3,8 +3,8 @@ from urllib.parse import quote
 
 from twitter import Api as TwitterApi
 
-from abridge.fetch.fetcher import Fetcher
-from abridge.secrets.twitter import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, API_KEY, API_KEY_SECRET
+from core.fetch.fetcher import Fetcher
+from core.secrets.twitter import ACCESS_TOKEN, ACCESS_TOKEN_SECRET, API_KEY, API_KEY_SECRET
 
 
 class TwitterFetcher(Fetcher):

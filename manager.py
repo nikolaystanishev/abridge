@@ -1,7 +1,7 @@
 import argparse
 
-from abridge.fetch.twitter_fetcher import TwitterFetcher
-from abridge.util.sh import bootstrap, register_postactions, sh, start_web
+from core.fetch.twitter_fetcher import TwitterFetcher
+from core.util.sh import bootstrap, register_postactions, sh, start_web
 
 
 def setup():
@@ -18,7 +18,6 @@ def setup():
     optional.add_argument('-start-web', help='Start server.', action='store_true')
     optional.add_argument('-fetch', help='Fetch data API.', metavar='PLATFORM', choices=['twitter'])
     optional.add_argument('-save-env', help='Save conda environment to file.', action='store_true')
-    optional.add_argument('-test-web', help='Test web.', action='store_true')
 
     return parser
 
@@ -37,11 +36,7 @@ def fetch(platform):
 
 
 def save_env():
-    sh('conda env export > environment.yml')
-
-
-def test_web():
-    sh('pytest web')
+    sh(['conda',  'env', 'export', '>', 'environment.yml'])
 
 
 if __name__ == '__main__':
@@ -52,10 +47,8 @@ if __name__ == '__main__':
     if args.bootstrap:
         bootstrap()
     elif args.start_web:
-        start_web()
+        start_web(True)
     elif args.fetch:
         fetch(args.fetch)
     elif args.save_env:
         save_env()
-    elif args.test_web:
-        test_web()
