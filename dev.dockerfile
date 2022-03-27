@@ -6,7 +6,7 @@ ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update --fix-missing && \ 
-    apt-get install -y wget curl unzip gnupg && \
+    apt-get install -y wget curl unzip gnupg build-essential && \
     apt-get clean
 
 RUN curl -sS https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
