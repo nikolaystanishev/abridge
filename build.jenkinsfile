@@ -76,9 +76,13 @@ pipeline {
                 ]
             )
 
-            bat '''
-                docker-compose -f docker-compose.yml down
-            '''
+            try {
+                bat '''
+                    docker-compose -f docker-compose.yml down
+                '''
+            } catch (Exception e) {
+                echo 'Exception occurred: ' + e.toString()
+            }
         }
     }
 }
