@@ -3,9 +3,10 @@ FROM amd64/ubuntu:latest
 ARG SOURCE_DIR="."
 
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update --fix-missing && \ 
-    apt-get install -y wget curl unzip && \
+    apt-get install -y wget curl unzip gnupg && \
     apt-get clean
 
 RUN curl -sS https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
