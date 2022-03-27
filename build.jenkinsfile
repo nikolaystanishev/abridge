@@ -64,16 +64,18 @@ pipeline {
 
     post {
         always {
-            junit 'coverage/*-junit.xml'
-            step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage/*coverage.xml'])
-            warnings(
-                parserConfigurations: [
-                    [parserName: 'PyLint', pattern: 'coverage/pyflakes.report'],
-                    [parserName: 'JSLint', pattern: 'coverage/ts-lint-report.xml']
-                ],
-                excludePattern: '.*site-packages.*',
-                usePreviousBuildAsReference: true,
+            junit 'coverage/web-junit.xml', 'coverage/js-junit.xml'
+            step([$class: 'CoberturaPublisher', coberturaReportFile: 'coverage/all-coverage.xml'])
+
+            recordIssues(
+                enabledForFailure: true,
+                aggregatingResults: false,
+                tools: [
+                    flake8(pattern: 'coverage/pyflakes.report', reportEncoding: 'UTF-8'),
+                    esLint(pattern: 'coverage/ts-lint-report.xml', reportEncoding: 'UTF-8')
+                ]
             )
+
             bat '''
                 docker-compose -f docker-compose.yml down
             '''

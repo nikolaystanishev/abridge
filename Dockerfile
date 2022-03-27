@@ -48,6 +48,8 @@ WORKDIR ${SOURCE_DIR}/web/frontend/templates/frontend/
 RUN rm -rf node_modules
 RUN yarn install
 
+RUN yarn global add cobertura-merge
+
 WORKDIR /code
 
 SHELL ["/bin/bash", "-c"]
