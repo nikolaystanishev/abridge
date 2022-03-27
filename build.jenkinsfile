@@ -76,7 +76,7 @@ pipeline {
                 ]
             )
 
-            step(
+            script {
                 try {
                     bat '''
                         docker-compose -f docker-compose.yml down
@@ -84,7 +84,7 @@ pipeline {
                 } catch (Exception e) {
                     echo 'Exception occurred: ' + e.toString()
                 }
-            )
+            }
         }
     }
 }
