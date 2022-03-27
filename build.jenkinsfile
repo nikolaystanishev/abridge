@@ -32,7 +32,7 @@ pipeline {
         stage('Setup') {
             steps {
                 script {
-                    docker.build("${DOCKER_IMAGE}", ". -f ${SOURCE_DIR}/Dockerfile")
+                    docker.build("${DOCKER_IMAGE}", ". -f ${SOURCE_DIR}/dev.dockerfile")
                 }
             }
         }
@@ -76,13 +76,15 @@ pipeline {
                 ]
             )
 
-            try {
-                bat '''
-                    docker-compose -f docker-compose.yml down
-                '''
-            } catch (Exception e) {
-                echo 'Exception occurred: ' + e.toString()
-            }
+            step(
+                try {
+                    bat '''
+                        docker-compose -f docker-compose.yml down
+                    '''
+                } catch (Exception e) {
+                    echo 'Exception occurred: ' + e.toString()
+                }
+            )
         }
     }
 }
