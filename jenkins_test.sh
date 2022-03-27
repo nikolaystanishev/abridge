@@ -22,5 +22,5 @@ cp coverage/js-junit.xml ../../../../coverage
 cd -
 
 cd /coverage
-cobertura -merge -o all-coverage.xml package1=web-coverage.xml package2=cobertura-coverage.xml
+cobertura-merge -o all-coverage.xml package1=web-coverage.xml package2=cobertura-coverage.xml
 cd -
