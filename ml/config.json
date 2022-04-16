@@ -1,0 +1,15 @@
+{
+    "models": {
+        "1": {
+            "dataset": "sentiment140",
+            "architecture": "lstm-classifier-1",
+            "input_shape": 32,
+            "loss": "binary_crossentropy",
+            "optimizer": "adam",
+            "learning_rate": null,
+            "decay": null,
+            "batch_size": 128,
+            "epochs": 10
+        }
+    }
+}
