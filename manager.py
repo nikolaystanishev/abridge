@@ -1,7 +1,13 @@
 import argparse
+import json
+import os
 
 from core.fetch.twitter_fetcher import TwitterFetcher
 from core.util.sh import bootstrap, register_postactions, sh, start_web
+from ml.manager.model import Model
+
+
+current_file_path = os.path.dirname(__file__)
 
 
 def setup():
@@ -18,6 +24,7 @@ def setup():
     optional.add_argument('-start-web', help='Start server.', action='store_true')
     optional.add_argument('-fetch', help='Fetch data API.', metavar='PLATFORM', choices=['twitter'])
     optional.add_argument('-save-env', help='Save conda environment to file.', action='store_true')
+    optional.add_argument('-train', help='Train model defined in ./model/config.json.')
 
     return parser
 
@@ -39,6 +46,14 @@ def save_env():
     sh(['conda',  'env', 'export', '>', 'environment.yml'])
 
 
+def train(model_id):
+    with open(os.path.join(current_file_path, 'ml/config.json')) as f:
+        config = json.load(f)
+
+    model = Model.from_config(config['models'][model_id])
+    model.proceed()
+
+
 if __name__ == '__main__':
     parser = setup()
     register_postactions()
@@ -52,3 +67,5 @@ if __name__ == '__main__':
         fetch(args.fetch)
     elif args.save_env:
         save_env()
+    elif args.train:
+        train(args.train)
