@@ -26,8 +26,8 @@ export interface FilterT {
 }
 
 export enum LabelT {
-  NEGATIVE = 0,
-  POSITIVE = 1
+  NEGATIVE = "NEGATIVE",
+  POSITIVE = "POSITIVE",
 }
 
 export interface DataObjectT {
