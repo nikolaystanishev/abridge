@@ -4,8 +4,7 @@ import os
 
 from core.fetch.twitter_fetcher import TwitterFetcher
 from core.util.sh import bootstrap, register_postactions, sh, start_web
-from ml.manager.model import Model
-
+from ml.core.model import Model
 
 current_file_path = os.path.dirname(__file__)
 
@@ -43,7 +42,7 @@ def fetch(platform):
 
 
 def save_env():
-    sh(['conda',  'env', 'export', '>', 'environment.yml'])
+    sh(['conda', 'env', 'export', '>', 'environment.yml'])
 
 
 def train(model_id):

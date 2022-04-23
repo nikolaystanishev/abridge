@@ -2,12 +2,10 @@ import os
 
 import numpy as np
 
-
 current_file_path = os.path.dirname(__file__)
 
-
 datasets = {
-    'sentiment140': "../datasets/sentiment140/processed/"
+    'sentiment140': "../../datasets/sentiment140/processed/"
 }
 
 
