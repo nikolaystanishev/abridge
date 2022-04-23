@@ -16,6 +16,7 @@ export enum FilterFormatT {
   TEXT = 'TEXT',
   DATE = 'DATE',
   COUNTRY = 'COUNTRY',
+  BOOLEAN = 'BOOLEAN',
 }
 
 export interface FilterT {

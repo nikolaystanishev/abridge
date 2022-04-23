@@ -16,6 +16,7 @@ class FilterFormat(EnumSerializable, Enum):
     TEXT = 1
     DATE = 2
     COUNTRY = 3
+    BOOLEAN = 4
 
 
 @dataclass

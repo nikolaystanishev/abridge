@@ -95,10 +95,14 @@ function PlatformFilter(props: { platforms: PlatformsT, filters: PlatformsFilter
 
 function FilterItem(props: { filter: FilterT }) {
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  const [selectedBooleanValue, setSelectedBooleanValue] = useState<boolean>(false);
 
   useEffect(() => {
+    if (props.filter.value_format == FilterFormatT.BOOLEAN) {
+      setSelectedValue(selectedBooleanValue ? 'true' : 'false');
+    }
     props.filter.value = selectedValue;
-  }, [selectedValue]);
+  }, [selectedValue, selectedBooleanValue]);
 
   return (
     <div>
@@ -148,7 +152,14 @@ function FilterItem(props: { filter: FilterT }) {
                 }}
               />
             )}
-          />
+          />,
+          [FilterFormatT.BOOLEAN]: <Button
+            sx={{width: 200}}
+            variant={selectedBooleanValue ? 'contained' : 'text'}
+            // color="secondary"
+            onClick={() => setSelectedBooleanValue(!selectedBooleanValue)}>
+            {props.filter.name}
+          </Button>
         }[props.filter.value_format]
       }
     </div>

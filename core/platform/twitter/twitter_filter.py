@@ -17,7 +17,8 @@ class TwitterFilters(Filters):
             Filter(TwitterFilterTypes.PLACE, FilterFormat.TEXT),
             Filter(TwitterFilterTypes.PLACE_COUNTRY, FilterFormat.COUNTRY),
             Filter(TwitterFilterTypes.SINCE, FilterFormat.DATE),
-            Filter(TwitterFilterTypes.UNTIL, FilterFormat.DATE)
+            Filter(TwitterFilterTypes.UNTIL, FilterFormat.DATE),
+            Filter(TwitterFilterTypes.EXCLUDE_REPLIES, FilterFormat.BOOLEAN)
         ]
 
 
@@ -33,3 +34,4 @@ class TwitterFilterTypes(FilterType):
     PLACE_COUNTRY = ('Country', 'place_country:')
     SINCE = ('Since', None)
     UNTIL = ('Until', None)
+    EXCLUDE_REPLIES = ('Exclude Replies', '-filter:replies')
