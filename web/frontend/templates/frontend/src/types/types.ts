@@ -24,6 +24,23 @@ export interface FilterT {
   value: string | null;
 }
 
+enum LabelT {
+  NEGATIVE = 0,
+  POSITIVE = 1
+}
+
+interface DataObjectT {
+  platform: PlatformT;
+  id: string;
+  text: string;
+  label: LabelT;
+}
+
+export interface AnalysisT {
+  data: DataObjectT[];
+  summary: string;
+}
+
 export interface CountryT {
   code: string;
   label: string;

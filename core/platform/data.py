@@ -13,16 +13,16 @@ class Label(EnumSerializable, Enum):
 @dataclass
 class DataObject(Serializable):
     platform: SupportedPlatform
-    url: str
+    id: str
     text: str
     label: Label = None
 
     def __repr__(self):
-        return f"{self.platform}-{self.url}"
+        return f"{self.platform}-{self.id}"
 
     def __eq__(self, other):
         if isinstance(other, DataObject):
-            return (self.platform == other.platform) and (self.url == other.url)
+            return (self.platform == other.platform) and (self.id == other.id)
         else:
             return False
 
