@@ -25,12 +25,12 @@ export interface FilterT {
   value: string | null;
 }
 
-enum LabelT {
+export enum LabelT {
   NEGATIVE = 0,
   POSITIVE = 1
 }
 
-interface DataObjectT {
+export interface DataObjectT {
   platform: PlatformT;
   id: string;
   text: string;
