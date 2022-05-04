@@ -24,7 +24,7 @@ class TwitterDataFetcher(DataFetcher):
         if query.strip() == 'q=':
             return []
 
-        return seq(self.__api.GetSearch(raw_query=query, lang='en', include_entities=True, since=since, until=until,
+        return seq(self.__api.GetSearch(raw_query=query, lang='en', include_entities=False, since=since, until=until,
                                         count=100)).map(
             lambda tweet: DataObject(SupportedPlatform.TWITTER, tweet.id_str, tweet.text))
 
