@@ -1,1 +1,2 @@
 UUID	dataset	architecture	input_shape	loss	optimizer	learning_rate	decay	batch_size	epochs	final_loss	accuracy	recall	precision	f1
+5929290a-5786-4b2e-a8f7-b9765f81149f	1	lstm-classifier-1	32	binary_crossentropy	rmsprop			256	10	26.188127517700195	0.49998751282691956	1.0	0.49998751282691956	[0.6666556]
