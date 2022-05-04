@@ -197,7 +197,7 @@
     },
     "2": {
       "id": "2",
-      "dataset": "sentiment140",
+      "dataset": "1",
       "architecture": "lstm-classifier-1",
       "input_shape": 32,
       "loss": "binary_crossentropy",
@@ -209,7 +209,7 @@
     },
     "3": {
       "id": "3",
-      "dataset": "sentiment140",
+      "dataset": "1",
       "architecture": "lstm-classifier-1",
       "input_shape": 32,
       "loss": "binary_crossentropy",
@@ -221,7 +221,7 @@
     },
     "4": {
       "id": "4",
-      "dataset": "sentiment140",
+      "dataset": "1",
       "architecture": "lstm-classifier-1",
       "input_shape": 32,
       "loss": "binary_crossentropy",
