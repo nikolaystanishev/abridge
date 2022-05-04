@@ -21,7 +21,8 @@ class Model:
     model.proceed()
     '''
 
-    def __init__(self, dataset, architecture, input_shape, loss, optimizer, batch_size, epochs):
+    def __init__(self, ID, dataset, architecture, input_shape, loss, optimizer, batch_size, epochs):
+        self.id = ID
         self.UUId = str(uuid.uuid4())
         self.dataset = dataset
         self.dataset.load_processed()
@@ -36,6 +37,7 @@ class Model:
     @staticmethod
     def from_config(config):
         return Model(
+            config['id'],
             Dataset.from_config(config['dataset']),
             config['architecture'],
             config['input_shape'],
@@ -92,6 +94,7 @@ class Model:
 
         result = {
             'UUID': self.UUId,
+            'model_id': self.id,
             'dataset': self.dataset.id,
             'architecture': self.architecture,
             'input_shape': self.input_shape,

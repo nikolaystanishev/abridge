@@ -181,17 +181,7 @@
   },
   "models": {
     "1": {
-      "dataset": "1",
-      "architecture": "lstm-classifier-1",
-      "input_shape": 32,
-      "loss": "binary_crossentropy",
-      "optimizer": "adam",
-      "learning_rate": null,
-      "decay": null,
-      "batch_size": 128,
-      "epochs": 10
-    },
-    "2": {
+      "id": "1",
       "dataset": "1",
       "architecture": "lstm-classifier-1",
       "input_shape": 32,
@@ -201,6 +191,42 @@
       "decay": null,
       "batch_size": 256,
       "epochs": 10
+    },
+    "2": {
+      "id": "2",
+      "dataset": "sentiment140",
+      "architecture": "lstm-classifier-1",
+      "input_shape": 32,
+      "loss": "binary_crossentropy",
+      "optimizer": "adam",
+      "learning_rate": 0.01,
+      "decay": 0.09,
+      "batch_size": 256,
+      "epochs": 10
+    },
+    "3": {
+      "id": "3",
+      "dataset": "sentiment140",
+      "architecture": "lstm-classifier-1",
+      "input_shape": 32,
+      "loss": "binary_crossentropy",
+      "optimizer": "adam",
+      "learning_rate": 0.1,
+      "decay": 0.9,
+      "batch_size": 256,
+      "epochs": 10
+    },
+    "4": {
+      "id": "4",
+      "dataset": "sentiment140",
+      "architecture": "lstm-classifier-1",
+      "input_shape": 32,
+      "loss": "binary_crossentropy",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 100
     }
   }
 }
