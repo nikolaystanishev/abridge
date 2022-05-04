@@ -1,9 +1,8 @@
+import atexit
 import os
 import signal
-import atexit
 import subprocess
 from threading import Event
-
 
 child_processes = []
 

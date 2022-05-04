@@ -24,7 +24,7 @@ def setup():
     optional.add_argument('-bootstrap', help='Bootstrap applications.', action='store_true')
     optional.add_argument('-start-web', help='Start server.', action='store_true')
     optional.add_argument('-fetch', help='Fetch data API.', metavar='PLATFORM', choices=['twitter'])
-    optional.add_argument('-save-env', help='Save conda environment to file.', action='store_true')
+    optional.add_argument('-save-env', help='Save conda environment to file.')
     optional.add_argument('-process-data', help='Process dataset defined in ./ml/config.json.')
     optional.add_argument('-train', help='Train model defined in ./ml/config.json.')
 
@@ -44,8 +44,8 @@ def fetch(platform):
     print(fetcher.fetch(request))
 
 
-def save_env():
-    sh(['conda', 'env', 'export', '>', 'environment.yml'])
+def save_env(platform):
+    sh(['conda', 'env', 'export', '--no-builds', '--file', 'environment-' + platform + '.yml'])
 
 
 def process_data(dataset_ids):
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     elif args.fetch:
         fetch(args.fetch)
     elif args.save_env:
-        save_env()
+        save_env(args.save_env)
     elif args.process_data:
         process_data(args.process_data)
     elif args.train:
