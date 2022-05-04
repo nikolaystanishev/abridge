@@ -190,7 +190,7 @@
       "decay": null,
       "batch_size": 128,
       "epochs": 10
-    }
+    },
     "2": {
       "dataset": "1",
       "architecture": "lstm-classifier-1",
