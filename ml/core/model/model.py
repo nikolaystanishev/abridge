@@ -6,8 +6,8 @@ from tensorflow.keras.callbacks import CSVLogger, ModelCheckpoint
 from tensorflow.keras.metrics import Precision, Recall
 from tensorflow_addons.metrics import F1Score
 
-from ml.core.data.dataset import DatasetFactory
-from ml.core.model.model import ArchitectureFactory
+from ml.core.data.dataset import Dataset
+from ml.core.model.architecture import ArchitectureFactory
 from ml.core.model.optimizer import Optimizer
 from ml.util.time_history_callback import TimeHistory
 
@@ -17,14 +17,14 @@ current_file_path = os.path.dirname(__file__)
 class Model:
     '''
     ex.
-    model = Model('sentiment140', 'lstm-classifier-1', 'binary_crossentropy', Optimizer('adam'), 128, 10)
+    model = Model.from_config(config)
     model.proceed()
     '''
 
     def __init__(self, dataset, architecture, input_shape, loss, optimizer, batch_size, epochs):
         self.UUId = str(uuid.uuid4())
         self.dataset = dataset
-        self.X_train, self.Y_train, self.X_test, self.Y_test = DatasetFactory.load(dataset)
+        self.dataset.load_processed()
         self.architecture = architecture
         self.input_shape = input_shape
         self.model = ArchitectureFactory.create(architecture, input_shape)
@@ -36,7 +36,7 @@ class Model:
     @staticmethod
     def from_config(config):
         return Model(
-            config['dataset'],
+            Dataset.from_config(config['dataset']),
             config['architecture'],
             config['input_shape'],
             config['loss'],
@@ -71,7 +71,7 @@ class Model:
         filepath = os.path.join(self.model_dir, "saved-model-{epoch:02d}-{val_accuracy:.2f}.hdf5")
 
         self.model.fit(
-            self.X_train, self.Y_train,
+            self.dataset.X_train, self.dataset.Y_train,
             batch_size=self.batch_size, epochs=self.epochs, validation_split=0.2,
             callbacks=[
                 ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=False, mode='max'),
@@ -82,7 +82,7 @@ class Model:
         )
 
     def evaluate(self):
-        return self.model.evaluate(self.X_test, self.Y_test)
+        return self.model.evaluate(self.dataset.X_test, self.dataset.Y_test)
 
     def save(self):
         self.model.save(self.model_dir + '/model.h5')
@@ -92,7 +92,7 @@ class Model:
 
         result = {
             'UUID': self.UUId,
-            'dataset': self.dataset,
+            'dataset': self.dataset.id,
             'architecture': self.architecture,
             'input_shape': self.input_shape,
             'loss': self.loss,

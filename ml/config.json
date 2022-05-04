@@ -1,15 +1,206 @@
 {
-    "models": {
-        "1": {
-            "dataset": "sentiment140",
-            "architecture": "lstm-classifier-1",
-            "input_shape": 32,
-            "loss": "binary_crossentropy",
-            "optimizer": "adam",
-            "learning_rate": null,
-            "decay": null,
-            "batch_size": 128,
-            "epochs": 10
-        }
+  "runtime": {
+    "dataset": "1",
+    "model": "1"
+  },
+  "datasets": {
+    "1": {
+      "id": "1",
+      "dataset_path": "datasets/sentiment140",
+      "dataset_file": "training.1600000.processed.noemoticon.csv",
+      "columns": [
+        "target",
+        "ids",
+        "date",
+        "flag",
+        "user",
+        "text"
+      ],
+      "data_column": "text",
+      "label_column": "target",
+      "test_ratio": 0.15,
+      "replace_character": "",
+      "max_length": 32,
+      "processing": [
+        "drop_unused_columns",
+        "encode_labels",
+        "visualize",
+        "lowercase",
+        "remove_urls",
+        "remove_placeholders",
+        "remove_html_references",
+        "remove_non_letter_characters",
+        "remove_mentions",
+        "remove_digits",
+        "expand_contractions",
+        "remove_punctuation",
+        "visualize",
+        "tokenize",
+        "remove_stopwords",
+        "visualize",
+        "stem",
+        "lemmatize",
+        "visualize",
+        "split",
+        "text_to_sequences"
+      ],
+      "runtime_processing": [
+        "lowercase",
+        "remove_urls",
+        "remove_placeholders",
+        "remove_html_references",
+        "remove_non_letter_characters",
+        "remove_mentions",
+        "remove_digits",
+        "expand_contractions",
+        "remove_punctuation",
+        "tokenize",
+        "remove_stopwords",
+        "stem",
+        "lemmatize",
+        "to_list",
+        "text_to_sequences"
+      ]
+    },
+    "2": {
+      "id": "2",
+      "dataset_path": "datasets/sentiment140",
+      "dataset_file": "training.1600000.processed.noemoticon.csv",
+      "columns": [
+        "target",
+        "ids",
+        "date",
+        "flag",
+        "user",
+        "text"
+      ],
+      "data_column": "text",
+      "label_column": "target",
+      "test_ratio": 0.15,
+      "replace_character": " ",
+      "max_length": 32,
+      "processing": [
+        "drop_unused_columns",
+        "encode_labels",
+        "visualize",
+        "lowercase",
+        "remove_urls",
+        "remove_placeholders",
+        "remove_html_references",
+        "remove_non_letter_characters",
+        "remove_mentions",
+        "remove_digits",
+        "expand_contractions",
+        "remove_punctuation",
+        "visualize",
+        "tokenize",
+        "remove_stopwords",
+        "visualize",
+        "stem",
+        "lemmatize",
+        "visualize",
+        "split",
+        "text_to_sequences"
+      ],
+      "runtime_processing": [
+        "lowercase",
+        "remove_urls",
+        "remove_placeholders",
+        "remove_html_references",
+        "remove_non_letter_characters",
+        "remove_mentions",
+        "remove_digits",
+        "expand_contractions",
+        "remove_punctuation",
+        "tokenize",
+        "remove_stopwords",
+        "stem",
+        "lemmatize",
+        "to_list",
+        "text_to_sequences"
+      ]
+    },
+    "3": {
+      "id": "3",
+      "dataset_path": "datasets/sentiment140",
+      "dataset_file": "training.1600000.processed.noemoticon.csv",
+      "columns": [
+        "target",
+        "ids",
+        "date",
+        "flag",
+        "user",
+        "text"
+      ],
+      "data_column": "text",
+      "label_column": "target",
+      "test_ratio": 0.7,
+      "replace_character": " ",
+      "max_length": 32,
+      "processing": [
+        "drop_unused_columns",
+        "encode_labels",
+        "visualize",
+        "lowercase",
+        "remove_urls",
+        "remove_placeholders",
+        "remove_html_references",
+        "remove_non_letter_characters",
+        "remove_mentions",
+        "remove_digits",
+        "expand_contractions",
+        "remove_punctuation",
+        "visualize",
+        "tokenize",
+        "remove_stopwords",
+        "visualize",
+        "stem",
+        "lemmatize",
+        "visualize",
+        "split",
+        "text_to_sequences"
+      ],
+      "runtime_processing": [
+        "lowercase",
+        "remove_urls",
+        "remove_placeholders",
+        "remove_html_references",
+        "remove_non_letter_characters",
+        "remove_mentions",
+        "remove_digits",
+        "expand_contractions",
+        "remove_punctuation",
+        "tokenize",
+        "remove_stopwords",
+        "stem",
+        "lemmatize",
+        "to_list",
+        "text_to_sequences"
+      ]
     }
+  },
+  "models": {
+    "1": {
+      "dataset": "1",
+      "architecture": "lstm-classifier-1",
+      "input_shape": 32,
+      "loss": "binary_crossentropy",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    }
+    "2": {
+      "dataset": "1",
+      "architecture": "lstm-classifier-1",
+      "input_shape": 32,
+      "loss": "binary_crossentropy",
+      "optimizer": "rmsprop",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 256,
+      "epochs": 10
+    }
+  }
 }

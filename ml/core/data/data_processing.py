@@ -1,14 +1,21 @@
 import re
 import string
+from copy import deepcopy
 
 import contractions
+import matplotlib.pyplot as plt
 import nltk
+import seaborn as sns
 from nltk import WordNetLemmatizer
 from nltk.stem import PorterStemmer
 from nltk.tokenize import TweetTokenizer
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.preprocessing import sequence
 from tensorflow.keras.preprocessing.text import Tokenizer
+from wordcloud import WordCloud
 
+le = LabelEncoder()
 PUNCTUATION_LIST = list(string.punctuation)
 stopword = nltk.corpus.stopwords.words('english')
 tknzr = TweetTokenizer()
@@ -19,84 +26,155 @@ tok = Tokenizer()
 
 class DataProcessing:
 
-    def __init__(self, data_column):
-        self.data_column = data_column
+    def __init__(self, dataset, is_runtime=False):
+        self.dataset = dataset
+        self.is_runtime = is_runtime
+        self.PROCEDURES = {
+            'drop_unused_columns': self.drop_unused_columns,
+            'encode_labels': self.encode_labels,
+            'lowercase': self.to_lowercase,
+            'remove_urls': self.remove_urls,
+            'remove_placeholders': self.remove_placeholders,
+            'remove_html_references': self.remove_html_references,
+            'remove_non_letter_characters': self.remove_non_letter_characters,
+            'remove_mentions': self.remove_mentions,
+            'remove_digits': self.remove_digits,
+            'expand_contractions': self.expand_contractions,
+            'remove_punctuation': self.remove_punctuation,
+            'tokenize': self.tokenize,
+            'remove_stopwords': self.remove_stopwords,
+            'stem': self.stem,
+            'lemmatize': self.lemmatize,
+            'split': self.split,
+            'to_list': self.to_list,
+            'text_to_sequences': self.text_to_sequences,
+            'visualize': self.visualize
+        }
 
-    def process(self, data):
-        self.clean(data)
-        self.tokenization(data)
-        self.clean_stopwords(data)
-        self.stemlem(data)
-        data = data[self.data_column]
-        sequences = tok.texts_to_sequences(data)
-        data = sequence.pad_sequences(sequences, maxlen=32)
+    def proceed(self):
+        steps = self.dataset.processing
+        if self.is_runtime:
+            steps = self.dataset.runtime_processing
 
-        return data
+        for procedure in steps:
+            self.PROCEDURES.get(procedure)()
 
-    def clean(self, data):
-        data[self.data_column] = data[self.data_column].str.lower()
-        data[self.data_column] = data[self.data_column].apply(self.remove_urls)
-        data[self.data_column] = data[self.data_column].apply(self.remove_placeholders)
-        data[self.data_column] = data[self.data_column].apply(self.remove_html_references)
-        data[self.data_column] = data[self.data_column].apply(self.remove_non_letter_characters)
-        data[self.data_column] = data[self.data_column].apply(self.remove_mentions)
-        data[self.data_column] = data[self.data_column].apply(self.remove_digits)
-        data[self.data_column] = data[self.data_column].apply(self.expand_contractions)
-        data[self.data_column] = data[self.data_column].apply(self.remove_punctuation)
+    def drop_unused_columns(self):
+        columns = deepcopy(self.dataset.columns)
+        columns.remove(self.dataset.data_column)
+        columns.remove(self.dataset.label_column)
+        self.dataset.dataset_df = self.dataset.dataset_df.drop(columns, axis=1)
 
-    @staticmethod
-    def remove_urls(text):
-        text = re.sub(r'https?:\/\/\S+', '', text)
-        return re.sub(r"www\.[a-z]?\.?(com)+|[a-z]+\.(com)", '', text)
+    def encode_labels(self):
+        self.dataset.dataset_df[self.dataset.label_column] = le.fit_transform(
+            self.dataset.dataset_df[self.dataset.label_column])
 
-    @staticmethod
-    def remove_placeholders(text):
-        text = re.sub(r'{link}', '', text)
-        return re.sub(r"\[video\]", '', text)
+    def to_lowercase(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[
+            self.dataset.data_column].str.lower()
 
-    @staticmethod
-    def remove_html_references(text):
-        return re.sub(r'&[a-z]+;', '', text)
+    def remove_urls(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r'https?:\/\/\S+', self.dataset.replace_character, text))
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r"www\.[a-z]?\.?(com)+|[a-z]+\.(com)", self.dataset.replace_character, text))
 
-    @staticmethod
-    def remove_non_letter_characters(text):
-        return re.sub(r"[^a-z\s\(\-:\)\\\/\];='#]", '', text)
+    def remove_placeholders(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r'{link}', self.dataset.replace_character, text))
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r"\[video\]", self.dataset.replace_character, text))
 
-    @staticmethod
-    def remove_mentions(text):
-        return re.sub(r'@mention', '', text)
+    def remove_html_references(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r'&[a-z]+;', self.dataset.replace_character, text))
 
-    @staticmethod
-    def remove_digits(text):
-        return re.sub('[0-9]+', '', text)
+    def remove_non_letter_characters(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r"[^a-z\s\(\-:\)\\\/\];='#]", self.dataset.replace_character, text))
 
-    @staticmethod
-    def expand_contractions(text):
-        return contractions.fix(text)
+    def remove_mentions(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r'@mention', self.dataset.replace_character, text))
 
-    @staticmethod
-    def remove_punctuation(text):
-        return "".join([char for char in text if char not in PUNCTUATION_LIST])
+    def remove_digits(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub('[0-9]+', self.dataset.replace_character, text))
 
-    def tokenization(self, data):
-        data[self.data_column] = data[self.data_column].apply(tknzr.tokenize)
+    def expand_contractions(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: contractions.fix(text))
 
-    def clean_stopwords(self, data):
-        data[self.data_column] = data[self.data_column].apply(self.remove_stopwords)
+    def remove_punctuation(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: "".join(
+                [char if char not in PUNCTUATION_LIST else self.dataset.replace_character for char in text]))
 
-    @staticmethod
-    def remove_stopwords(text):
-        text = [word for word in text if word not in stopword]
-        return text
+    def tokenize(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            tknzr.tokenize)
 
-    def stemlem(self, data):
-        data[self.data_column] = data[self.data_column].apply(self.stemming)
-        data[self.data_column] = data[self.data_column].apply(self.lemmatization)
+    def remove_stopwords(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: [word for word in text if word not in stopword])
 
-    @staticmethod
-    def stemming(text):
-        return [ps.stem(word) for word in text]
+    def stem(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: [ps.stem(word) for word in text])
 
-    @staticmethod
-    def lemmatization(text):
-        return [wn.lemmatize(word) for word in text]
+    def lemmatize(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: [wn.lemmatize(word) for word in text])
+
+    def split(self):
+        self.dataset.X_train, self.dataset.X_test, self.dataset.Y_train, self.dataset.Y_test = \
+            train_test_split(self.dataset.dataset_df[self.dataset.data_column],
+                             self.dataset.dataset_df[self.dataset.label_column], test_size=self.dataset.test_ratio)
+
+    def to_list(self):
+        self.dataset.X_train = self.dataset.X_train[self.dataset.data_column]
+
+    def text_to_sequences(self):
+        tok = Tokenizer()
+        tok.fit_on_texts(self.dataset.X_train)
+
+        sequences = tok.texts_to_sequences(self.dataset.X_train)
+        self.dataset.X_train = sequence.pad_sequences(sequences, maxlen=self.dataset.max_length)
+
+        if self.dataset.X_test is not None:
+            sequences = tok.texts_to_sequences(self.dataset.X_test)
+            self.dataset.X_test = sequence.pad_sequences(sequences, maxlen=self.dataset.max_length)
+
+    def visualize(self):
+        dataset_positive = self.dataset.dataset_df[self.dataset.dataset_df[self.dataset.label_column] == 1]
+        dataset_negative = self.dataset.dataset_df[self.dataset.dataset_df[self.dataset.label_column] == 0]
+        data = " ".join(tweet if not isinstance(tweet, list) else " ".join(tweet) for tweet in
+                        self.dataset.dataset_df[self.dataset.data_column])
+        data_positive = " ".join(tweet if not isinstance(tweet, list) else " ".join(tweet) for tweet in
+                                 dataset_positive[self.dataset.data_column])
+        data_negative = " ".join(tweet if not isinstance(tweet, list) else " ".join(tweet) for tweet in
+                                 dataset_negative[self.dataset.data_column])
+
+        wordcloud_fig, ax = plt.subplots(3, 1, figsize=(30, 30))
+
+        wordcloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(data)
+        wordcloud_positive = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(
+            data_positive)
+        wordcloud_negative = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(
+            data_negative)
+
+        # Display the generated image:
+        ax[0].imshow(wordcloud, interpolation='bilinear')
+        ax[0].set_title('Data', fontsize=30)
+        ax[0].axis('off')
+        ax[1].imshow(wordcloud_positive, interpolation='bilinear')
+        ax[1].set_title('Positive data', fontsize=30)
+        ax[1].axis('off')
+        ax[2].imshow(wordcloud_negative, interpolation='bilinear')
+        ax[2].set_title('Negative data', fontsize=30)
+        ax[2].axis('off')
+
+        label_distribution_fig, ax = plt.subplots(1, 1, figsize=(5, 5))
+        sns.countplot(self.dataset.dataset_df[self.dataset.label_column], ax=ax)
+
+        self.dataset.save_visualization(wordcloud_fig, label_distribution_fig)

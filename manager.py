@@ -2,9 +2,11 @@ import argparse
 import json
 import os
 
-from core.fetch.twitter_fetcher import TwitterFetcher
+from core.platform.twitter.twitter_data_fetcher import TwitterDataFetcher
 from core.util.sh import bootstrap, register_postactions, sh, start_web
-from ml.core.model import Model
+from ml.core.data.data_processing import DataProcessing
+from ml.core.data.dataset import Dataset
+from ml.core.model.model import Model
 
 current_file_path = os.path.dirname(__file__)
 
@@ -23,14 +25,15 @@ def setup():
     optional.add_argument('-start-web', help='Start server.', action='store_true')
     optional.add_argument('-fetch', help='Fetch data API.', metavar='PLATFORM', choices=['twitter'])
     optional.add_argument('-save-env', help='Save conda environment to file.', action='store_true')
-    optional.add_argument('-train', help='Train model defined in ./model/config.json.')
+    optional.add_argument('-process-data', help='Process dataset defined in ./ml/config.json.')
+    optional.add_argument('-train', help='Train model defined in ./ml/config.json.')
 
     return parser
 
 
 def fetch(platform):
     if platform == 'twitter':
-        fetcher = TwitterFetcher()
+        fetcher = TwitterDataFetcher()
 
     request = fetcher.get_empty_request()
     for k in request.keys():
@@ -43,6 +46,17 @@ def fetch(platform):
 
 def save_env():
     sh(['conda', 'env', 'export', '>', 'environment.yml'])
+
+
+def process_data(dataset_ids):
+    with open(os.path.join(current_file_path, 'ml/config.json')) as f:
+        config = json.load(f)
+
+    for dataset_id in dataset_ids.split(','):
+        dataset = Dataset.from_config(config['datasets'][dataset_id])
+        dataset.load()
+        DataProcessing(dataset).proceed()
+        dataset.save()
 
 
 def train(model_id):
@@ -66,5 +80,7 @@ if __name__ == '__main__':
         fetch(args.fetch)
     elif args.save_env:
         save_env()
+    elif args.process_data:
+        process_data(args.process_data)
     elif args.train:
         train(args.train)
