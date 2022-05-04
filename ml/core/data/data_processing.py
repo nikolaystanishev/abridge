@@ -139,11 +139,13 @@ class DataProcessing:
         tok.fit_on_texts(self.dataset.X_train)
 
         sequences = tok.texts_to_sequences(self.dataset.X_train)
-        self.dataset.X_train = sequence.pad_sequences(sequences, maxlen=self.dataset.max_length)
+        self.dataset.X_train = sequence.pad_sequences(sequences, maxlen=self.dataset.max_length,
+                                                      padding=self.dataset.sequence_padding)
 
         if self.dataset.X_test is not None:
             sequences = tok.texts_to_sequences(self.dataset.X_test)
-            self.dataset.X_test = sequence.pad_sequences(sequences, maxlen=self.dataset.max_length)
+            self.dataset.X_test = sequence.pad_sequences(sequences, maxlen=self.dataset.max_length,
+                                                         padding=self.dataset.sequence_padding)
 
     def visualize(self):
         dataset_positive = self.dataset.dataset_df[self.dataset.dataset_df[self.dataset.label_column] == 1]

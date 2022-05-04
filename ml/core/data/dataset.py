@@ -16,7 +16,7 @@ class Dataset:
     '''
 
     def __init__(self, ID, dataset_path, dataset_file, columns, data_column, label_column, test_ratio,
-                 replace_character, max_length, processing, runtime_processing):
+                 replace_character, max_length, sequence_padding, processing, runtime_processing):
         self.dataset_df = None
         self.X_train = None
         self.Y_train = None
@@ -32,6 +32,7 @@ class Dataset:
         self.test_ratio = test_ratio
         self.replace_character = replace_character
         self.max_length = max_length
+        self.sequence_padding = sequence_padding
         self.processing = processing
         self.runtime_processing = runtime_processing
 
@@ -49,6 +50,7 @@ class Dataset:
             config['test_ratio'],
             config['replace_character'],
             config['max_length'],
+            config['sequence_padding'],
             config['processing'],
             config['runtime_processing'],
         )

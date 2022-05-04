@@ -21,6 +21,7 @@
       "test_ratio": 0.15,
       "replace_character": "",
       "max_length": 32,
+      "sequence_padding": "pre",
       "processing": [
         "drop_unused_columns",
         "encode_labels",
@@ -79,6 +80,7 @@
       "test_ratio": 0.15,
       "replace_character": " ",
       "max_length": 32,
+      "sequence_padding": "post",
       "processing": [
         "drop_unused_columns",
         "encode_labels",
@@ -137,6 +139,7 @@
       "test_ratio": 0.7,
       "replace_character": " ",
       "max_length": 32,
+      "sequence_padding": "post",
       "processing": [
         "drop_unused_columns",
         "encode_labels",
