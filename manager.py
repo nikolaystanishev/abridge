@@ -59,13 +59,14 @@ def process_data(dataset_ids):
         dataset.save()
 
 
-def train(model_id):
+def train(model_ids):
     with open(os.path.join(current_file_path, 'ml/config.json')) as f:
         config = json.load(f)
 
-    config['models'][model_id]['dataset'] = config['datasets'][config['models'][model_id]['dataset']]
-    model = Model.from_config(config['models'][model_id])
-    model.proceed()
+    for model_id in model_ids.split(','):
+        config['models'][model_id]['dataset'] = config['datasets'][config['models'][model_id]['dataset']]
+        model = Model.from_config(config['models'][model_id])
+        model.proceed()
 
 
 if __name__ == '__main__':
