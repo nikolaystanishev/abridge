@@ -9,7 +9,7 @@ from tensorflow_addons.metrics import F1Score
 from ml.core.data.dataset import Dataset
 from ml.core.model.architecture import ArchitectureFactory
 from ml.core.model.optimizer import Optimizer
-from ml.util.time_history_callback import TimeHistory
+from ml.tensorflow.ext.time_history_callback import TimeHistory
 
 current_file_path = os.path.dirname(__file__)
 
