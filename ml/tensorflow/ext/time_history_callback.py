@@ -1,7 +1,7 @@
 import json
 import time
 
-from tensorflow.keras.callbacks import Callback
+from tensorflow.python.keras.callbacks import Callback
 
 
 class TimeHistory(Callback):

@@ -2,8 +2,8 @@ import os
 import uuid
 
 import pandas as pd
-from tensorflow.keras.callbacks import CSVLogger, ModelCheckpoint
-from tensorflow.keras.metrics import Precision, Recall
+from tensorflow.python.keras.callbacks import CSVLogger, ModelCheckpoint
+from tensorflow.python.keras.metrics import Precision, Recall
 from tensorflow_addons.metrics import F1Score
 
 from ml.core.data.dataset import Dataset

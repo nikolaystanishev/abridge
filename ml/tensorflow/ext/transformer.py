@@ -1,6 +1,7 @@
 import tensorflow as tf
-from tensorflow.keras.layers import MultiHeadAttention, LayerNormalization, Dropout, Layer, Dense, Embedding
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LayerNormalization
+from tensorflow.python.keras.layers import MultiHeadAttention, Dropout, Layer, Dense, Embedding
+from tensorflow.python.keras.models import Sequential
 
 
 class TransformerBlock(Layer):

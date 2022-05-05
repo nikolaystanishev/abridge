@@ -12,6 +12,7 @@ def lstm_classifier_1(input_shape):
     layer = LSTM(64, activation='relu')(layer)
     layer = Dropout(0.2)(layer)
     layer = Dense(1, activation='softmax')(layer)
+
     model = Model(inputs=inputs, outputs=layer)
     return model
 
@@ -23,18 +24,20 @@ def lstm_classifier_2(input_shape):
     layer = LSTM(64, activation='relu')(layer)
     layer = Dropout(0.2)(layer)
     layer = Dense(1, activation='softmax')(layer)
+
     model = Model(inputs=inputs, outputs=layer)
     return model
 
 
 def lstm_classifier_3(input_shape):
     inputs = Input(name='inputs', shape=[input_shape])
-    inputs = Dense(input_shape, kernel_initializer=GlorotUniform())(inputs)
-    layer = Embedding(1000, 64, input_length=input_shape, mask_zero=True)(inputs)
+    layer = Dense(input_shape, kernel_initializer=GlorotUniform())(inputs)
+    layer = Embedding(1000, 64, input_length=input_shape, mask_zero=True)(layer)
     layer = Masking(mask_value=0.0)(layer)
     layer = LSTM(64, activation='relu')(layer)
     layer = Dropout(0.2)(layer)
     layer = Dense(1, activation='softmax')(layer)
+
     model = Model(inputs=inputs, outputs=layer)
     return model
 
@@ -51,9 +54,10 @@ def transformer_classifier_1(input_shape):
     layer = Dropout(0.1)(layer)
     layer = Dense(20, activation="relu")(layer)
     layer = Dropout(0.1)(layer)
-    outputs = Dense(2, activation="softmax")(layer)
+    outputs = Dense(1, activation="softmax")(layer)
 
     model = Model(inputs=inputs, outputs=outputs)
+    return model
 
 
 def transformer_classifier_2(input_shape):
@@ -62,7 +66,6 @@ def transformer_classifier_2(input_shape):
     ff_dim = 32  # Hidden layer size in feed forward network inside transformer
 
     inputs = Input(name='inputs', shape=[input_shape])
-    inputs = Dense(input_shape, kernel_initializer=GlorotUniform())(inputs)
     layer = TokenAndPositionEmbedding(input_shape, 1000, embed_dim)(inputs)
     layer = Masking(mask_value=0.0)(layer)
     layer = TransformerBlock(embed_dim, num_heads, ff_dim)(layer)
@@ -70,9 +73,10 @@ def transformer_classifier_2(input_shape):
     layer = Dropout(0.1)(layer)
     layer = Dense(20, activation="relu")(layer)
     layer = Dropout(0.1)(layer)
-    outputs = Dense(2, activation="softmax")(layer)
+    outputs = Dense(1, activation="softmax")(layer)
 
     model = Model(inputs=inputs, outputs=outputs)
+    return model
 
 
 def transformer_classifier_3(input_shape):
@@ -81,16 +85,18 @@ def transformer_classifier_3(input_shape):
     ff_dim = 32  # Hidden layer size in feed forward network inside transformer
 
     inputs = Input(name='inputs', shape=[input_shape])
-    layer = TokenAndPositionEmbedding(input_shape, 1000, embed_dim)(inputs)
+    layer = Dense(input_shape, kernel_initializer=GlorotUniform())(inputs)
+    layer = TokenAndPositionEmbedding(input_shape, 1000, embed_dim)(layer)
     layer = Masking(mask_value=0.0)(layer)
     layer = TransformerBlock(embed_dim, num_heads, ff_dim)(layer)
     layer = GlobalAveragePooling1D()(layer)
     layer = Dropout(0.1)(layer)
     layer = Dense(20, activation="relu")(layer)
     layer = Dropout(0.1)(layer)
-    outputs = Dense(2, activation="softmax")(layer)
+    outputs = Dense(1, activation="softmax")(layer)
 
     model = Model(inputs=inputs, outputs=outputs)
+    return model
 
 
 architectures = {

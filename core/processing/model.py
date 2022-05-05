@@ -1,6 +1,6 @@
 import os
 
-from tensorflow.keras.models import load_model
+from tensorflow.python.keras.models import load_model
 from tensorflow_addons.metrics import F1Score
 
 from core.util.singleton import Singleton

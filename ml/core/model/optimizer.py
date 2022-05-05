@@ -1,5 +1,5 @@
-from tensorflow.keras.optimizers import Adam, RMSprop
-
+from tensorflow.python.keras.optimizer_v2.adam import Adam
+from tensorflow.python.keras.optimizer_v2.rmsprop import RMSprop
 
 optimizers = {
     'adam': Adam,
