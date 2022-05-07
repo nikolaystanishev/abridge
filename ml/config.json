@@ -347,6 +347,75 @@
         "to_list",
         "text_to_sequences"
       ]
+    },
+    "7": {
+      "id": "7",
+      "dataset_path": "datasets/epfl/acfe063c-c5b9-4aa6-b5fb-12c88bae9627_epfml-text",
+      "dataset_file": "partial.tsv",
+      "columns": [
+        "data",
+        "label"
+      ],
+      "data_column": "data",
+      "label_column": "label",
+      "test_ratio": 0.85,
+      "replace_character": " ",
+      "max_length": 32,
+      "sequence_padding": "post",
+      "processing": [
+        "drop_unused_columns",
+        "encode_labels",
+        "visualize",
+        "lowercase",
+        "remove_urls_1",
+        "remove_placeholders_1",
+        "remove_html_references",
+        "remove_non_letter_characters",
+        "remove_mentions_1",
+        "remove_digits",
+        "expand_contractions",
+        "remove_punctuation",
+        "visualize",
+        "tokenize",
+        "remove_stopwords",
+        "visualize",
+        "stem",
+        "lemmatize",
+        "visualize",
+        "split",
+        "text_to_sequences"
+      ],
+      "runtime_processing": [
+        "lowercase",
+        "remove_urls_1",
+        "remove_placeholders_1",
+        "remove_html_references",
+        "remove_non_letter_characters",
+        "remove_mentions_1",
+        "remove_digits",
+        "expand_contractions",
+        "remove_punctuation",
+        "tokenize",
+        "remove_stopwords",
+        "stem",
+        "lemmatize",
+        "to_list",
+        "text_to_sequences"
+      ]
+    },
+    "test-40": {
+      "id": "test-40",
+      "dataset_path": "datasets/epfl/acfe063c-c5b9-4aa6-b5fb-12c88bae9627_epfml-text",
+      "dataset_file": "partial.tsv",
+      "columns": [],
+      "data_column": "data",
+      "label_column": "label",
+      "test_ratio": 0.85,
+      "replace_character": " ",
+      "max_length": 40,
+      "sequence_padding": "post",
+      "processing": [],
+      "runtime_processing": []
     }
   },
   "models": {
@@ -493,6 +562,102 @@
       "decay": null,
       "batch_size": 128,
       "epochs": 300
+    },
+    "13": {
+      "id": "13",
+      "dataset": "4",
+      "architecture": "transformer-classifier-3",
+      "input_shape": 32,
+      "loss": "binary_crossentropy",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "14": {
+      "id": "14",
+      "dataset": "3",
+      "architecture": "transformer-classifier-3",
+      "input_shape": 32,
+      "loss": "binary_crossentropy",
+      "optimizer": "rmsprop",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "15": {
+      "id": "15",
+      "dataset": "4",
+      "architecture": "transformer-classifier-3",
+      "input_shape": 32,
+      "loss": "binary_crossentropy",
+      "optimizer": "rmsprop",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "16": {
+      "id": "16",
+      "dataset": "7",
+      "architecture": "transformer-classifier-3",
+      "input_shape": 32,
+      "loss": "binary_crossentropy",
+      "optimizer": "rmsprop",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 1000
+    },
+    "17": {
+      "id": "17",
+      "dataset": "7",
+      "architecture": "transformer-classifier-3",
+      "input_shape": 32,
+      "loss": "poisson",
+      "optimizer": "rmsprop",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 1000
+    },
+    "18": {
+      "id": "18",
+      "dataset": "6",
+      "architecture": "transformer-classifier-3",
+      "input_shape": 32,
+      "loss": "poisson",
+      "optimizer": "rmsprop",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 100
+    },
+    "19": {
+      "id": "19",
+      "dataset": "test-40",
+      "architecture": "transformer-classifier-3",
+      "input_shape": 40,
+      "loss": "poisson",
+      "optimizer": "rmsprop",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 100
+    },
+    "20": {
+      "id": "20",
+      "dataset": "test-40",
+      "architecture": "lstm-classifier-3",
+      "input_shape": 40,
+      "loss": "binary_crossentropy",
+      "optimizer": "rmsprop",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 1024,
+      "epochs": 10
     }
   }
 }
