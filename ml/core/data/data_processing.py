@@ -3,8 +3,10 @@ import string
 from copy import deepcopy
 
 import contractions
+import gensim
 import matplotlib.pyplot as plt
 import nltk
+import numpy as np
 import seaborn as sns
 from nltk import WordNetLemmatizer
 from nltk.stem import PorterStemmer
@@ -34,10 +36,14 @@ class DataProcessing:
             'encode_labels': self.encode_labels,
             'lowercase': self.to_lowercase,
             'remove_urls': self.remove_urls,
+            'remove_urls_1': self.remove_urls_1,
             'remove_placeholders': self.remove_placeholders,
+            'remove_placeholders_1': self.remove_placeholders_1,
+            'remove_frames': self.remove_frames,
             'remove_html_references': self.remove_html_references,
             'remove_non_letter_characters': self.remove_non_letter_characters,
             'remove_mentions': self.remove_mentions,
+            'remove_mentions_1': self.remove_mentions_1,
             'remove_digits': self.remove_digits,
             'expand_contractions': self.expand_contractions,
             'remove_punctuation': self.remove_punctuation,
@@ -79,11 +85,28 @@ class DataProcessing:
         self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
             lambda text: re.sub(r"www\.[a-z]?\.?(com)+|[a-z]+\.(com)", self.dataset.replace_character, text))
 
+    def remove_urls_1(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r'http?:\/\/\S+', self.dataset.replace_character, text))
+        self.remove_urls()
+
     def remove_placeholders(self):
         self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
             lambda text: re.sub(r'{link}', self.dataset.replace_character, text))
         self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
             lambda text: re.sub(r"\[video\]", self.dataset.replace_character, text))
+
+    def remove_placeholders_1(self):
+        self.remove_placeholders()
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r'<\w+>', self.dataset.replace_character, text))
+
+    def remove_frames(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r'"\d+x\d+ custom picture frame / poster frame (\d+|\d+\.\d+) "',
+                                self.dataset.replace_character, text))
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r'frame \( \d+ this frame is', self.dataset.replace_character, text))
 
     def remove_html_references(self):
         self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
@@ -97,9 +120,13 @@ class DataProcessing:
         self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
             lambda text: re.sub(r'@mention', self.dataset.replace_character, text))
 
+    def remove_mentions_1(self):
+        self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
+            lambda text: re.sub(r'@w+', self.dataset.replace_character, text))
+
     def remove_digits(self):
         self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
-            lambda text: re.sub('[0-9]+', self.dataset.replace_character, text))
+            lambda text: re.sub(r'\d+', self.dataset.replace_character, text))
 
     def expand_contractions(self):
         self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
