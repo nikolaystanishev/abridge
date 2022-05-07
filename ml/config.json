@@ -469,6 +469,30 @@
       "decay": null,
       "batch_size": 128,
       "epochs": 10
+    },
+    "11": {
+      "id": "11",
+      "dataset": "3",
+      "architecture": "transformer-classifier-3",
+      "input_shape": 32,
+      "loss": "binary_crossentropy",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 100
+    },
+    "12": {
+      "id": "12",
+      "dataset": "6",
+      "architecture": "transformer-classifier-3",
+      "input_shape": 32,
+      "loss": "binary_crossentropy",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 300
     }
   }
 }
