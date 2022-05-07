@@ -1,12 +1,14 @@
+from tensorflow.keras.layers import Bidirectional, LSTM
 from tensorflow.python.keras.initializers.initializers_v2 import GlorotUniform
-from tensorflow.python.keras.layers import GlobalAveragePooling1D
-from tensorflow.python.keras.layers import LSTM, Dense, Dropout, Input, Embedding, Masking
+from tensorflow.python.keras.layers import Dense, Dropout, Input, Embedding, Masking, GlobalAveragePooling1D
+from tensorflow.python.keras.layers.core import Activation
 from tensorflow.python.keras.models import Model
+from tensorflow.python.keras.models import Sequential
 
 from ml.tensorflow.ext.transformer import TokenAndPositionEmbedding, TransformerBlock
 
 
-def lstm_classifier_1(input_shape):
+def lstm_classifier_1(input_shape, embedding_matrix=None):
     inputs = Input(name='inputs', shape=[input_shape])
     layer = Embedding(1000, 64, input_length=input_shape)(inputs)
     layer = LSTM(64, activation='relu')(layer)
@@ -17,7 +19,7 @@ def lstm_classifier_1(input_shape):
     return model
 
 
-def lstm_classifier_2(input_shape):
+def lstm_classifier_2(input_shape, embedding_matrix=None):
     inputs = Input(name='inputs', shape=[input_shape])
     layer = Embedding(1000, 64, input_length=input_shape, mask_zero=True)(inputs)
     layer = Masking(mask_value=0.0)(layer)
@@ -29,7 +31,7 @@ def lstm_classifier_2(input_shape):
     return model
 
 
-def lstm_classifier_3(input_shape):
+def lstm_classifier_3(input_shape, embedding_matrix=None):
     inputs = Input(name='inputs', shape=[input_shape])
     layer = Dense(input_shape, kernel_initializer=GlorotUniform())(inputs)
     layer = Embedding(1000, 64, input_length=input_shape, mask_zero=True)(layer)
@@ -42,7 +44,36 @@ def lstm_classifier_3(input_shape):
     return model
 
 
-def transformer_classifier_1(input_shape):
+def lstm_classifier_4(input_shape, embedding_matrix=None):
+    inputs = Input(name='inputs', shape=[input_shape])
+    layer = Dense(input_shape, kernel_initializer=GlorotUniform())(inputs)
+    layer = Embedding(403937, 200, weights=[embedding_matrix], input_length=input_shape, trainable=False,
+                      mask_zero=True)(layer)
+    layer = Masking(mask_value=0.0)(layer)
+    layer = LSTM(64, activation='relu')(layer)
+    layer = Dropout(0.2)(layer)
+    layer = Dense(1, activation='softmax')(layer)
+
+    model = Model(inputs=inputs, outputs=layer)
+    return model
+
+
+def lstm_classifier_5(input_shape, embedding_matrix):
+    inputs = Sequential()
+    layer = Embedding(403937, 200, weights=[embedding_matrix], input_length=input_shape, trainable=False,
+                      mask_zero=True)(inputs)
+    layer = Masking(mask_value=0.0)(layer)
+    layer = Bidirectional(LSTM(64))(layer)
+    layer = Dense(64, activation='relu')(layer)
+    layer = Dropout(0.5)(layer)
+    layer = Dense(1)(layer)
+    outputs = Activation('sigmoid')(layer)
+
+    model = Model(inputs=inputs, outputs=outputs)
+    return model
+
+
+def transformer_classifier_1(input_shape, embedding_matrix=None):
     embed_dim = 32  # Embedding size for each token
     num_heads = 2  # Number of attention heads
     ff_dim = 32  # Hidden layer size in feed forward network inside transformer
@@ -60,7 +91,7 @@ def transformer_classifier_1(input_shape):
     return model
 
 
-def transformer_classifier_2(input_shape):
+def transformer_classifier_2(input_shape, embedding_matrix=None):
     embed_dim = 32  # Embedding size for each token
     num_heads = 2  # Number of attention heads
     ff_dim = 32  # Hidden layer size in feed forward network inside transformer
@@ -79,7 +110,7 @@ def transformer_classifier_2(input_shape):
     return model
 
 
-def transformer_classifier_3(input_shape):
+def transformer_classifier_3(input_shape, embedding_matrix=None):
     embed_dim = 32  # Embedding size for each token
     num_heads = 2  # Number of attention heads
     ff_dim = 32  # Hidden layer size in feed forward network inside transformer
@@ -103,6 +134,8 @@ architectures = {
     'lstm-classifier-1': lstm_classifier_1,
     'lstm-classifier-2': lstm_classifier_2,
     'lstm-classifier-3': lstm_classifier_3,
+    'lstm-classifier-4': lstm_classifier_4,
+    'lstm-classifier-5': lstm_classifier_5,
     'transformer-classifier-1': transformer_classifier_1,
     'transformer-classifier-2': transformer_classifier_2,
     'transformer-classifier-3': transformer_classifier_3,
@@ -112,5 +145,5 @@ architectures = {
 class ArchitectureFactory:
 
     @staticmethod
-    def create(architecture, input_shape):
-        return architectures[architecture](input_shape)
+    def create(architecture, input_shape, embedding):
+        return architectures[architecture](input_shape, embedding)

@@ -54,6 +54,7 @@ class DataProcessing:
             'split': self.split,
             'to_list': self.to_list,
             'text_to_sequences': self.text_to_sequences,
+            'create_embedding_matrix': self.create_embedding_matrix,
             'visualize': self.visualize
         }
 
@@ -162,17 +163,32 @@ class DataProcessing:
         self.dataset.X_train = self.dataset.X_train[self.dataset.data_column]
 
     def text_to_sequences(self):
-        tok = Tokenizer()
-        tok.fit_on_texts(self.dataset.X_train)
+        self.dataset.tokenizer = Tokenizer()
+        self.dataset.tokenizer.fit_on_texts(self.dataset.X_train)
 
-        sequences = tok.texts_to_sequences(self.dataset.X_train)
+        sequences = self.dataset.tokenizer.texts_to_sequences(self.dataset.X_train)
         self.dataset.X_train = sequence.pad_sequences(sequences, maxlen=self.dataset.max_length,
                                                       padding=self.dataset.sequence_padding)
 
         if self.dataset.X_test is not None:
-            sequences = tok.texts_to_sequences(self.dataset.X_test)
+            sequences = self.dataset.tokenizer.texts_to_sequences(self.dataset.X_test)
             self.dataset.X_test = sequence.pad_sequences(sequences, maxlen=self.dataset.max_length,
                                                          padding=self.dataset.sequence_padding)
+
+    def create_embedding_matrix(self):
+        model = gensim.models.Word2Vec(self.dataset.dataset_df[self.dataset.data_column], vector_size=200, window=10,
+                                       min_count=5, workers=10)
+        model.train(self.dataset.dataset_df[self.dataset.data_column],
+                    total_examples=len(self.dataset.dataset_df[self.dataset.data_column]), epochs=10)
+        word_vectors = model.wv
+        vocab_size = len(self.dataset.tokenizer.word_index) + 1
+
+        embedding_matrix = np.zeros((vocab_size, 200))
+        for word, index in self.dataset.tokenizer.word_index.items():
+            embedding_vector = word_vectors.get_vector(word)
+            if embedding_vector is not None:
+                embedding_matrix[index] = embedding_vector
+        self.dataset.embedding = embedding_matrix
 
     def visualize(self):
         dataset_positive = self.dataset.dataset_df[self.dataset.dataset_df[self.dataset.label_column] == 1]

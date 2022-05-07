@@ -28,7 +28,7 @@ class Model:
         self.dataset.load_processed()
         self.architecture = architecture
         self.input_shape = input_shape
-        self.model = ArchitectureFactory.create(architecture, input_shape)
+        self.model = ArchitectureFactory.create(architecture, input_shape, self.dataset.embedding)
         self.loss = loss
         self.optimizer = optimizer
         self.batch_size = batch_size

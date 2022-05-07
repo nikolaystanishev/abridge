@@ -23,6 +23,9 @@ class Dataset:
         self.Y_train = None
         self.X_test = None
         self.Y_test = None
+        self.embedding = None
+
+        self.tokenizer = None
 
         self.id = ID
         self.dataset_path = dataset_path
@@ -72,6 +75,8 @@ class Dataset:
             os.path.join(current_file_path, '../..', self.dataset_path, 'processed', self.id, 'X_test.npy'))
         self.Y_test = np.load(
             os.path.join(current_file_path, '../..', self.dataset_path, 'processed', self.id, 'Y_test.npy'))
+        self.embedding = np.load(
+            os.path.join(current_file_path, '../..', self.dataset_path, 'processed', self.id, 'embedding.npy'))
 
     def save(self):
         if not os.path.exists(os.path.join(current_file_path, '../..', self.dataset_path, 'processed', self.id)):
@@ -84,6 +89,8 @@ class Dataset:
                 self.X_test)
         np.save(os.path.join(current_file_path, '../..', self.dataset_path, 'processed', self.id, 'Y_test.npy'),
                 self.Y_test)
+        np.save(os.path.join(current_file_path, '../..', self.dataset_path, 'processed', self.id, 'embedding.npy'),
+                self.embedding)
 
     def save_visualization(self, wordcloud, label_distribution):
         self.visualization += 1
