@@ -59,17 +59,17 @@ def lstm_classifier_4(input_shape, embedding_matrix=None):
 
 
 def lstm_classifier_5(input_shape, embedding_matrix):
-    inputs = Sequential()
-    layer = Embedding(403937, 200, weights=[embedding_matrix], input_length=input_shape, trainable=False,
-                      mask_zero=True)(inputs)
-    layer = Masking(mask_value=0.0)(layer)
-    layer = Bidirectional(LSTM(64))(layer)
-    layer = Dense(64, activation='relu')(layer)
-    layer = Dropout(0.5)(layer)
-    layer = Dense(1)(layer)
-    outputs = Activation('sigmoid')(layer)
+    model = Sequential()
 
-    model = Model(inputs=inputs, outputs=outputs)
+    model.add(Embedding(403937, 200, weights=[embedding_matrix], input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(Bidirectional(LSTM(64)))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
     return model
 
 

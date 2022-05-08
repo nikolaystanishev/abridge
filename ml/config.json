@@ -886,7 +886,7 @@
     "20": {
       "id": "20",
       "dataset": "test-40",
-      "architecture": "lstm-classifier-3",
+      "architecture": "lstm-classifier-5",
       "input_shape": 40,
       "loss": "binary_crossentropy",
       "optimizer": "rmsprop",
