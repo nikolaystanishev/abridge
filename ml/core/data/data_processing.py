@@ -123,7 +123,7 @@ class DataProcessing:
 
     def remove_mentions_1(self):
         self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
-            lambda text: re.sub(r'@w+', self.dataset.replace_character, text))
+            lambda text: re.sub(r'@\w+', self.dataset.replace_character, text))
 
     def remove_digits(self):
         self.dataset.dataset_df[self.dataset.data_column] = self.dataset.dataset_df[self.dataset.data_column].apply(
@@ -185,9 +185,10 @@ class DataProcessing:
 
         embedding_matrix = np.zeros((vocab_size, 200))
         for word, index in self.dataset.tokenizer.word_index.items():
-            embedding_vector = word_vectors.get_vector(word)
-            if embedding_vector is not None:
-                embedding_matrix[index] = embedding_vector
+            if word_vectors.has_index_for(word):
+                embedding_vector = word_vectors.get_vector(word)
+                if embedding_vector is not None:
+                    embedding_matrix[index] = embedding_vector
         self.dataset.embedding = embedding_matrix
 
     def visualize(self):

@@ -62,7 +62,8 @@ class Dataset:
     def load(self, dataset_df=None):
         if dataset_df is None:
             dataset_df = pd.read_csv(os.path.join(current_file_path, '../..', self.dataset_path, self.dataset_file),
-                                     names=self.columns, encoding="latin-1", quoting=csv.QUOTE_NONE,
+                                     names=self.columns, encoding="latin-1",
+                                     quoting=0 if self.dataset_file.endswith('.csv') else csv.QUOTE_NONE,
                                      sep=',' if self.dataset_file.endswith('.csv') else '\t')
         self.dataset_df = dataset_df
 
