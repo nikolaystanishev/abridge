@@ -40,7 +40,7 @@ class Model:
             config['id'],
             Dataset.from_config(config['dataset']),
             config['architecture'],
-            config['input_shape'],
+            config['dataset']['max_length'],
             config['loss'],
             Optimizer(config['optimizer'], config['learning_rate'], config['decay']),
             config['batch_size'],

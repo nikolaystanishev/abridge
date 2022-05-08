@@ -1,7 +1,8 @@
 from tensorflow.keras.layers import Bidirectional, LSTM
 from tensorflow.python.keras.initializers.initializers_v2 import GlorotUniform
-from tensorflow.python.keras.layers import Dense, Dropout, Input, Embedding, Masking, GlobalAveragePooling1D
-from tensorflow.python.keras.layers.core import Activation
+from tensorflow.python.keras.layers import Dense, Dropout, Input, Embedding, Masking, GlobalAveragePooling1D, GRU, \
+    Conv1D
+from tensorflow.python.keras.layers.core import Activation, Flatten
 from tensorflow.python.keras.models import Model
 from tensorflow.python.keras.models import Sequential
 
@@ -130,6 +131,94 @@ def transformer_classifier_3(input_shape, embedding_matrix=None):
     return model
 
 
+def flatten_classifier_1(input_shape, embedding_matrix=None):
+    model = Sequential()
+
+    model.add(Input(name='inputs', shape=[input_shape]))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Flatten())
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
+def lstm_classifier_6(input_shape, embedding_matrix=None):
+    model = Sequential()
+
+    model.add(Input(name='inputs', shape=[input_shape]))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(LSTM(64))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
+def bi_lstm_classifier_1(input_shape, embedding_matrix):
+    model = Sequential()
+
+    model.add(Input(name='inputs', shape=[input_shape]))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(Bidirectional(LSTM(64)))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
+def gru_classifier_1(input_shape, embedding_matrix):
+    model = Sequential()
+
+    model.add(Input(name='inputs', shape=[input_shape]))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(GRU(64))
+    model.add(Dropout(0.3))
+    model.add(Flatten())
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
+def cnn_classifier_1(input_shape, embedding_matrix):
+    model = Sequential()
+
+    model.add(Input(name='inputs', shape=[input_shape]))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Dropout(0.4))
+    model.add(Conv1D(600, 3, padding='valid', activation='relu', strides=1))
+    model.add(Conv1D(300, 3, padding='valid', activation='relu', strides=1))
+    model.add(Conv1D(150, 3, padding='valid', activation='relu', strides=1))
+    model.add(Conv1D(75, 3, padding='valid', activation='relu', strides=1))
+    model.add(Flatten())
+    model.add(Dense(600))
+    model.add(Dropout(0.5))
+    model.add(Activation('relu'))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
 architectures = {
     'lstm-classifier-1': lstm_classifier_1,
     'lstm-classifier-2': lstm_classifier_2,
@@ -139,6 +228,11 @@ architectures = {
     'transformer-classifier-1': transformer_classifier_1,
     'transformer-classifier-2': transformer_classifier_2,
     'transformer-classifier-3': transformer_classifier_3,
+    'flatten-classifier-1': flatten_classifier_1,
+    'lstm-classifier-6': lstm_classifier_6,
+    'bi-lstm-classifier-1': bi_lstm_classifier_1,
+    'gru-classifier-1': gru_classifier_1,
+    'cnn-classifier-1': cnn_classifier_1,
 }
 
 
