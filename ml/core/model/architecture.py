@@ -242,6 +242,27 @@ def transformer_classifier_4(input_shape, embedding_matrix=None):
     return model
 
 
+def transformer_classifier_5(input_shape, embedding_matrix=None):
+    embed_dim = 200  # Embedding size for each token
+    num_heads = 2  # Number of attention heads
+    ff_dim = 64  # Hidden layer size in feed forward network inside transformer
+
+    model = Sequential()
+
+    model.add(Input(name='inputs', shape=[input_shape]))
+    model.add(TokenAndPositionEmbedding(input_shape, 1000, embed_dim, embedding_matrix))
+    model.add(Masking(mask_value=0.0))
+    model.add(TransformerBlock(embed_dim, num_heads, ff_dim))
+    model.add(GlobalAveragePooling1D())
+    model.add(Dropout(0.1))
+    model.add(Dense(20, activation="relu"))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
 architectures = {
     'lstm-classifier-1': lstm_classifier_1,
     'lstm-classifier-2': lstm_classifier_2,
@@ -257,6 +278,7 @@ architectures = {
     'gru-classifier-1': gru_classifier_1,
     'cnn-classifier-1': cnn_classifier_1,
     'transformer-classifier-4': transformer_classifier_4,
+    'transformer-classifier-5': transformer_classifier_5,
 }
 
 

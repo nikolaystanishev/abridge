@@ -966,6 +966,17 @@
       "batch_size": 128,
       "epochs": 10
     },
+    "27": {
+      "id": "27",
+      "dataset": "9",
+      "architecture": "transformer-classifier-5",
+      "loss": "binary_crossentropy",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
     "//comment-2": "Architecture finding stop"
   }
 }

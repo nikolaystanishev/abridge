@@ -44,15 +44,21 @@ class TransformerBlock(Layer):
 
 
 class TokenAndPositionEmbedding(Layer):
-    def __init__(self, maxlen, vocab_size, embed_dim):
+    def __init__(self, maxlen, vocab_size, embed_dim, embedding_matrix=None):
         super(TokenAndPositionEmbedding, self).__init__()
 
         self.maxlen = maxlen
         self.vocab_size = vocab_size
         self.embed_dim = embed_dim
 
-        self.token_emb = Embedding(input_dim=vocab_size, output_dim=embed_dim)
-        self.pos_emb = Embedding(input_dim=maxlen, output_dim=embed_dim)
+        if embedding_matrix is None:
+            self.token_emb = Embedding(input_dim=vocab_size, output_dim=embed_dim)
+            self.pos_emb = Embedding(input_dim=maxlen, output_dim=embed_dim)
+        else:
+            self.token_emb = Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1],
+                                       weights=[embedding_matrix], trainable=False, mask_zero=True)
+            self.pos_emb = Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                                     trainable=False, mask_zero=True)
 
     def get_config(self):
         config = super().get_config()
