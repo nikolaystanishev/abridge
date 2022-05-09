@@ -3,6 +3,7 @@ import json
 import os
 
 from core.platform.twitter.twitter_data_fetcher import TwitterDataFetcher
+from core.util.config import load_config
 from core.util.sh import bootstrap, register_postactions, sh, start_web
 from ml.core.data.data_processing import DataProcessing
 from ml.core.data.dataset import Dataset
@@ -49,8 +50,7 @@ def save_env(platform):
 
 
 def process_data(dataset_ids):
-    with open(os.path.join(current_file_path, 'ml/config.json')) as f:
-        config = json.load(f)
+    config = load_config()
 
     for dataset_id in dataset_ids.split(','):
         dataset = Dataset.from_config(config['datasets'][dataset_id])
@@ -60,8 +60,7 @@ def process_data(dataset_ids):
 
 
 def train(model_ids):
-    with open(os.path.join(current_file_path, 'ml/config.json')) as f:
-        config = json.load(f)
+    config = load_config()
 
     for model_id in model_ids.split(','):
         config['models'][model_id]['dataset'] = config['datasets'][config['models'][model_id]['dataset']]
