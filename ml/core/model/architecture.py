@@ -1,5 +1,5 @@
 from tensorflow.keras.layers import Bidirectional
-from tensorflow.python.keras.initializers.initializers_v2 import GlorotUniform
+from tensorflow.python.keras.initializers.initializers_v2 import GlorotUniform, GlorotNormal
 from tensorflow.python.keras.layers import Dense, Dropout, Input, Embedding, Masking, GlobalAveragePooling1D, GRU, \
     Conv1D, LSTM
 from tensorflow.python.keras.layers.core import Activation, Flatten
@@ -263,6 +263,60 @@ def transformer_classifier_5(input_shape, embedding_matrix=None):
     return model
 
 
+def lstm_classifier_7(input_shape, embedding_matrix):
+    model = Sequential()
+
+    model.add(Input(name='inputs', shape=[input_shape]))
+    model.add(Dense(input_shape, kernel_initializer=GlorotUniform()))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(LSTM(64))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
+def lstm_classifier_8(input_shape, embedding_matrix):
+    model = Sequential()
+
+    model.add(Input(name='inputs', shape=[input_shape]))
+    model.add(Dense(input_shape, kernel_initializer=GlorotNormal()))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(LSTM(64))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
+def lstm_classifier_9(input_shape, embedding_matrix):
+    model = Sequential()
+
+    model.add(Input(name='inputs', shape=[input_shape]))
+    model.add(Dense(input_shape, kernel_initializer=GlorotNormal()))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(LSTM(64, kernel_regularizer='l1_l2'))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
 architectures = {
     'lstm-classifier-1': lstm_classifier_1,
     'lstm-classifier-2': lstm_classifier_2,
@@ -279,6 +333,9 @@ architectures = {
     'cnn-classifier-1': cnn_classifier_1,
     'transformer-classifier-4': transformer_classifier_4,
     'transformer-classifier-5': transformer_classifier_5,
+    'lstm-classifier-7': lstm_classifier_7,
+    'lstm-classifier-8': lstm_classifier_8,
+    'lstm-classifier-9': lstm_classifier_9,
 }
 
 
