@@ -63,8 +63,12 @@ class Model:
         self.model.compile(
             loss=self.loss,
             optimizer=self.optimizer.get(),
-            metrics=['accuracy', Precision(), Recall(), F1Score(num_classes=1, threshold=0.5)]
+            metrics=['accuracy', Precision(), Recall(), self.f1_score()]
         )
+
+    @staticmethod
+    def f1_score():
+        return F1Score(num_classes=1, threshold=0.5)
 
     def fit(self):
         self.model_dir = os.path.join(current_file_path, '../../results/models/' + self.UUId)

@@ -160,7 +160,7 @@ class DataProcessing:
                              self.dataset.dataset_df[self.dataset.label_column], test_size=self.dataset.test_ratio)
 
     def to_list(self):
-        self.dataset.X_train = self.dataset.X_train[self.dataset.data_column]
+        self.dataset.X_train = self.dataset.dataset_df[self.dataset.data_column]
 
     def text_to_sequences(self):
         self.dataset.tokenizer = Tokenizer()

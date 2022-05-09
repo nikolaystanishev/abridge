@@ -1,6 +1,7 @@
 name: abridge
 channels:
   - apple
+  - anaconda
   - conda-forge
 dependencies:
   - anyio=3.5.0
@@ -14,6 +15,7 @@ dependencies:
   - backcall=0.2.0
   - backports=1.0
   - backports.functools_lru_cache=1.6.4
+  - backports.zoneinfo=0.2.1
   - beautifulsoup4=4.11.1
   - bleach=5.0.0
   - blinker=1.4
@@ -30,22 +32,29 @@ dependencies:
   - colorama=0.4.4
   - cryptography=36.0.2
   - cycler=0.11.0
+  - cython=0.29.28
+  - dataclasses=0.8
   - debugpy=1.6.0
   - decorator=5.1.1
   - defusedxml=0.7.1
   - django=4.0
+  - djangorestframework=3.13.1
   - entrypoints=0.4
   - executing=0.8.3
+  - filelock=3.6.0
   - flit-core=3.7.1
   - fonttools=4.32.0
   - freetype=2.10.4
   - future=0.18.2
+  - gensim=4.1.2
   - giflib=5.2.1
   - grpcio=1.45.0
   - h5py=3.6.0
   - hdf5=1.12.1
+  - huggingface_hub=0.5.1
   - idna=3.3
   - importlib-metadata=4.11.3
+  - importlib_metadata=4.11.3
   - importlib_resources=5.7.0
   - ipykernel=6.13.0
   - ipython=8.2.0
@@ -88,6 +97,7 @@ dependencies:
   - libnghttp2=1.47.0
   - libopenblas=0.3.20
   - libpng=1.6.37
+  - libprotobuf=3.20.1
   - libsodium=1.0.18
   - libssh2=1.10.0
   - libtiff=4.3.0
@@ -108,13 +118,14 @@ dependencies:
   - nbformat=5.3.0
   - ncurses=6.3
   - nest-asyncio=1.5.5
+  - ninja=1.10.2
   - nltk=3.6.7
   - notebook=6.4.10
   - notebook-shim=0.1.0
   - numpy=1.21.6
   - oauthlib=3.2.0
   - openjpeg=2.4.0
-  - openssl=1.1.1n
+  - openssl=1.1.1o
   - packaging=21.3
   - pandas=1.4.2
   - pandocfilters=1.5.0
@@ -143,18 +154,24 @@ dependencies:
   - python-fastjsonschema=2.15.3
   - python-twitter=3.5
   - python_abi=3.8
+  - pytorch=1.11.0
   - pytz=2022.1
+  - pyyaml=6.0
   - pyzmq=22.3.0
   - readline=8.1
   - regex=2022.3.15
   - requests=2.27.1
   - requests-oauthlib=1.3.1
+  - sacremoses=0.0.53
   - scikit-learn=1.0.2
   - scipy=1.8.0
   - seaborn=0.11.2
   - seaborn-base=0.11.2
   - send2trash=1.8.0
+  - sentencepiece=0.1.96
   - setuptools=62.1.0
+  - sleef=3.5.1
+  - smart_open=5.2.1
   - sniffio=1.2.0
   - soupsieve=2.3.1
   - sqlite=3.38.2
@@ -166,10 +183,14 @@ dependencies:
   - testpath=0.6.0
   - threadpoolctl=3.1.0
   - tk=8.6.12
+  - tokenizers=0.10.3
   - tornado=6.1
   - tqdm=4.64.0
   - traitlets=5.1.1
+  - transformers=4.16.2
+  - typing-extensions=4.1.1
   - typing_extensions=4.1.1
+  - tzdata=2022a
   - unicodedata2=14.0.0
   - urllib3=1.26.9
   - wcwidth=0.2.5
@@ -180,6 +201,7 @@ dependencies:
   - xorg-libxau=1.0.9
   - xorg-libxdmcp=1.1.3
   - xz=5.2.5
+  - yaml=0.2.5
   - zeromq=4.3.4
   - zipp=3.8.0
   - zlib=1.2.11
