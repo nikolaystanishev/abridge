@@ -1,8 +1,10 @@
+import keras as K
 from tensorflow.python.keras.optimizer_v2.adam import Adam
 from tensorflow.python.keras.optimizer_v2.rmsprop import RMSprop
 
 optimizers = {
     'adam': Adam,
+    'adam-keras': K.optimizer_v2.adam.Adam,
     'rmsprop': RMSprop
 }
 

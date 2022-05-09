@@ -927,7 +927,7 @@
       "dataset": "9",
       "architecture": "bi-lstm-classifier-1",
       "loss": "binary_crossentropy",
-      "optimizer": "adam",
+      "optimizer": "adam-keras",
       "learning_rate": null,
       "decay": null,
       "batch_size": 128,

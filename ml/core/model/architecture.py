@@ -1,7 +1,7 @@
-from tensorflow.keras.layers import Bidirectional, LSTM
+from tensorflow.keras.layers import Bidirectional
 from tensorflow.python.keras.initializers.initializers_v2 import GlorotUniform
 from tensorflow.python.keras.layers import Dense, Dropout, Input, Embedding, Masking, GlobalAveragePooling1D, GRU, \
-    Conv1D
+    Conv1D, LSTM
 from tensorflow.python.keras.layers.core import Activation, Flatten
 from tensorflow.python.keras.models import Model
 from tensorflow.python.keras.models import Sequential
@@ -163,6 +163,8 @@ def lstm_classifier_6(input_shape, embedding_matrix=None):
 
 
 def bi_lstm_classifier_1(input_shape, embedding_matrix):
+    from keras.layers import Dense, Dropout, Input, Embedding, Masking, LSTM, Activation
+    from keras.models import Sequential
     model = Sequential()
 
     model.add(Input(name='inputs', shape=[input_shape]))
