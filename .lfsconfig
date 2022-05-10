@@ -1,2 +1,2 @@
 [remote "origin"]
-	lfsurl = http://192.168.1.121:8081/repository/abridge-lfs/
+	lfsurl = http://78.130.183.10:45678/repository/abridge-lfs/
