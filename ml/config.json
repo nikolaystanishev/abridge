@@ -1254,6 +1254,52 @@
       "batch_size": 128,
       "epochs": 10
     },
-    "//comment-6": "Try regularization stop"
+    "//comment-6": "Try regularization stop",
+    "//comment-7": "Try optimizers start",
+    "31": {
+      "id": "31",
+      "dataset": "9",
+      "architecture": "lstm-classifier-6",
+      "loss": "binary_crossentropy",
+      "optimizer": "rmsprop",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "32": {
+      "id": "32",
+      "dataset": "9",
+      "architecture": "lstm-classifier-6",
+      "loss": "binary_crossentropy",
+      "optimizer": "adagard",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "33": {
+      "id": "33",
+      "dataset": "9",
+      "architecture": "lstm-classifier-6",
+      "loss": "binary_crossentropy",
+      "optimizer": "sgd",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "34": {
+      "id": "34",
+      "dataset": "9",
+      "architecture": "lstm-classifier-6",
+      "loss": "binary_crossentropy",
+      "optimizer": "ftrl",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "//comment-8": "Try optimizers stop"
   }
 }
