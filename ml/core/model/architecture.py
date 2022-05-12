@@ -1,7 +1,7 @@
 from tensorflow.keras.layers import Bidirectional
 from tensorflow.python.keras.initializers.initializers_v2 import GlorotUniform, GlorotNormal
 from tensorflow.python.keras.layers import Dense, Dropout, Input, Embedding, Masking, GlobalAveragePooling1D, GRU, \
-    Conv1D, LSTM
+    Conv1D, LSTM, InputLayer
 from tensorflow.python.keras.layers.core import Activation, Flatten
 from tensorflow.python.keras.models import Model
 from tensorflow.python.keras.models import Sequential
@@ -317,6 +317,23 @@ def lstm_classifier_9(input_shape, embedding_matrix):
     return model
 
 
+def lstm_classifier_10(input_shape, embedding_matrix=None):
+    model = Sequential()
+
+    model.add(InputLayer(name='inputs', input_shape=[input_shape]))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(LSTM(64))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
 architectures = {
     'lstm-classifier-1': lstm_classifier_1,
     'lstm-classifier-2': lstm_classifier_2,
@@ -336,6 +353,7 @@ architectures = {
     'lstm-classifier-7': lstm_classifier_7,
     'lstm-classifier-8': lstm_classifier_8,
     'lstm-classifier-9': lstm_classifier_9,
+    'lstm-classifier-10': lstm_classifier_10,
 }
 
 

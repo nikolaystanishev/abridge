@@ -1300,24 +1300,24 @@
       "batch_size": 128,
       "epochs": 10
     },
-    "//comment-8": "Try optimizers stop",
-    "//comment-9": "Try loss start",
     "35": {
       "id": "35",
       "dataset": "9",
-      "architecture": "lstm-classifier-6",
-      "loss": "poisson",
-      "optimizer": "adam",
+      "architecture": "lstm-classifier-10",
+      "loss": "binary_crossentropy",
+      "optimizer": "ftrl",
       "learning_rate": null,
       "decay": null,
       "batch_size": 128,
       "epochs": 10
     },
+    "//comment-8": "Try optimizers stop",
+    "//comment-9": "Try loss start",
     "36": {
       "id": "36",
       "dataset": "9",
       "architecture": "lstm-classifier-6",
-      "loss": "hinge",
+      "loss": "poisson",
       "optimizer": "adam",
       "learning_rate": null,
       "decay": null,
@@ -1328,7 +1328,7 @@
       "id": "37",
       "dataset": "9",
       "architecture": "lstm-classifier-6",
-      "loss": "cosine_similarity",
+      "loss": "hinge",
       "optimizer": "adam",
       "learning_rate": null,
       "decay": null,
@@ -1339,7 +1339,7 @@
       "id": "38",
       "dataset": "9",
       "architecture": "lstm-classifier-6",
-      "loss": "huber_loss",
+      "loss": "cosine_similarity",
       "optimizer": "adam",
       "learning_rate": null,
       "decay": null,
@@ -1350,6 +1350,17 @@
       "id": "39",
       "dataset": "9",
       "architecture": "lstm-classifier-6",
+      "loss": "huber_loss",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "40": {
+      "id": "40",
+      "dataset": "9",
+      "architecture": "lstm-classifier-6",
       "loss": "kl_divergence",
       "optimizer": "adam",
       "learning_rate": null,
@@ -1357,6 +1368,52 @@
       "batch_size": 128,
       "epochs": 10
     },
-    "//comment-10": "Try loss stop"
+    "//comment-10": "Try loss stop",
+    "//comment-11": "Try datasets start",
+    "41": {
+      "id": "41",
+      "dataset": "9",
+      "architecture": "lstm-classifier-10",
+      "loss": "huber_loss",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "42": {
+      "id": "42",
+      "dataset": "11",
+      "architecture": "lstm-classifier-10",
+      "loss": "huber_loss",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "43": {
+      "id": "43",
+      "dataset": "13",
+      "architecture": "lstm-classifier-10",
+      "loss": "huber_loss",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "44": {
+      "id": "44",
+      "dataset": "15",
+      "architecture": "lstm-classifier-10",
+      "loss": "huber_loss",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 10
+    },
+    "//comment-12": "Try datasets stop"
   }
 }
