@@ -1,5 +1,4 @@
 import argparse
-import json
 import os
 
 from core.platform.twitter.twitter_data_fetcher import TwitterDataFetcher
