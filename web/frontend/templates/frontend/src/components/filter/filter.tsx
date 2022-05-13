@@ -66,29 +66,36 @@ function PlatformFilter(props: { platforms: PlatformsT, filters: PlatformsFilter
   }, [selectedPlatform]);
 
   return (
-    <Grid container spacing={2} justifyContent="flex-start"
-          alignItems="baseline" width="0.8" margin="auto" border={1}
-          borderColor="primary.main"
-          borderRadius={2}>
-      <Grid item xs>
-        <Autocomplete
-          disablePortal
-          options={props.platforms.platforms}
-          getOptionLabel={(p: PlatformT) => p.name}
-          onChange={(e: SyntheticEvent, value: PlatformT | null) => value != null ? setSelectedPlatform(value) : null}
-          sx={{width: 200}}
-          renderInput={(params) => <TextField {...params} label="Platform" variant="standard"
-            // color="secondary"
-          />}
-        />
+    <Grid container
+          justifyContent="space-between" width="0.8"
+          margin="auto" marginTop={1} marginBottom={1}
+          border={1} borderColor="primary.main" borderRadius={2}>
+      <Grid container item justifyContent="space-between" xs={11}>
+        <Grid container item justifyContent="center" alignItems="center" xs="auto" mx="auto">
+          <Autocomplete
+            disablePortal
+            options={props.platforms.platforms}
+            getOptionLabel={(p: PlatformT) => p.name}
+            onChange={(e: SyntheticEvent, value: PlatformT | null) => value != null ? setSelectedPlatform(value) : null}
+            sx={{width: 200, mx: "auto", my: 1}}
+            renderInput={(params) => <TextField {...params} label="Platform" variant="standard"/>}
+          />
+        </Grid>
+        <Grid container item justifyContent="space-evenly" alignItems="center" columnSpacing={2} xs={9}>
+          {props.filters.filters.map((f: FilterT) => {
+            return (
+              <Grid item xs key={f.filter_type.name}>
+                <FilterItem filter={f}/>
+              </Grid>
+            )
+          })}
+        </Grid>
       </Grid>
-      {props.filters.filters.map((f: FilterT) => {
-        return (
-          <Grid item xs key={f.name}>
-            <FilterItem filter={f}/>
-          </Grid>
-        )
-      })}
+      <Grid container item justifyContent="flex-end" alignItems="flex-start" xs={1}>
+        <IconButton size="small" aria-label="close" onClick={() => props.removeFilter(props.filters)}>
+          <CloseIcon fontSize="small"/>
+        </IconButton>
+      </Grid>
     </Grid>
   );
 }
@@ -109,21 +116,19 @@ function FilterItem(props: { filter: FilterT }) {
       {
         {
           [FilterFormatT.TEXT]: <TextField
-            sx={{width: 200}}
-            label={props.filter.name}
+            sx={{width: 200, my: 1}}
+            label={props.filter.filter_type.literal}
             variant="standard"
-            // color="secondary"
             onChange={(e: ChangeEvent<HTMLInputElement>) => setSelectedValue(e.target.value)}/>,
           [FilterFormatT.DATE]: <TextField
-            sx={{width: 200}}
-            label={props.filter.name}
+            sx={{width: 200, my: 1}}
+            label={props.filter.filter_type.literal}
             variant="standard"
             type="date"
-            // color="secondary"
-            defaultValue={new Date().toLocaleDateString().split('/').reverse().join('-')}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setSelectedValue(e.target.value)}/>,
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setSelectedValue(e.target.value)}
+            InputLabelProps={{shrink: true}}/>,
           [FilterFormatT.COUNTRY]: <Autocomplete
-            sx={{width: 200}}
+            sx={{width: 200, mx: "auto", my: 1}}
             options={countries}
             autoHighlight
             getOptionLabel={(option) => option.label}
@@ -143,9 +148,8 @@ function FilterItem(props: { filter: FilterT }) {
             renderInput={(params) => (
               <TextField
                 {...params}
-                label="Choose a country"
+                label={props.filter.filter_type.literal}
                 variant="standard"
-                // color="secondary"
                 inputProps={{
                   ...params.inputProps,
                   autoComplete: 'new-password',
@@ -154,11 +158,10 @@ function FilterItem(props: { filter: FilterT }) {
             )}
           />,
           [FilterFormatT.BOOLEAN]: <Button
-            sx={{width: 200}}
+            sx={{width: 200, my: 1}}
             variant={selectedBooleanValue ? 'contained' : 'text'}
-            // color="secondary"
             onClick={() => setSelectedBooleanValue(!selectedBooleanValue)}>
-            {props.filter.name}
+            {props.filter.filter_type.literal}
           </Button>
         }[props.filter.value_format]
       }
