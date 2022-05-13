@@ -30,8 +30,9 @@ class TwitterDataFetcher(DataFetcher):
 
     def __build_query(self, query_filter):
         return 'q=' + quote(' '.join(seq(query_filter).filter(
-            lambda f: f.value is not None and f.value != '' and f.value != 'false' and f.name.mapping is not None).map(
-            lambda f: f.name.mapping + (f.value if f.value != 'true' else ''))))
+            lambda f: f.value is not None and f.value != '' and f.value != 'false' and
+                      f.filter_type.mapping is not None).map(
+            lambda f: f.filter_type.mapping + (f.value if f.value != 'true' else ''))))
 
     def __get_field_value(self, query_filter, field):
-        return seq(query_filter).filter(lambda f: f.name == field).map(lambda f: f.value).first()
+        return seq(query_filter).filter(lambda f: f.filter_type == field).map(lambda f: f.value).first()

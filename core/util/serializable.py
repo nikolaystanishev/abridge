@@ -18,6 +18,12 @@ class EnumSerializable:
         return self.name
 
 
+class LiteralEnumSerializable:
+
+    def tolist(self):
+        return {"name": self.name, "literal": self.literal}
+
+
 def from_json(data, cls, platform=None):
     annotations: dict = cls.__annotations__ if hasattr(cls, '__annotations__') else None
     if issubclass(get_type_class(cls), List):
@@ -62,8 +68,8 @@ def get_type_class(typ):
 
 
 def get_platform_enum(cls, data, platform):
-    try:
-        return cls[data]
-    except KeyError:
+    if isinstance(data, dict):
         from core.platform.filter_type import get_filter_type
-        return get_filter_type(platform)[data]
+        return get_filter_type(platform)[data['name']]
+    else:
+        return cls[data]

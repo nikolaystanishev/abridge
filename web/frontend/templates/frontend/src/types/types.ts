@@ -19,8 +19,13 @@ export enum FilterFormatT {
   BOOLEAN = 'BOOLEAN',
 }
 
-export interface FilterT {
+export interface FilterTypeT {
   name: string;
+  literal: string;
+}
+
+export interface FilterT {
+  filter_type: FilterTypeT;
   value_format: FilterFormatT;
   value: string | null;
 }

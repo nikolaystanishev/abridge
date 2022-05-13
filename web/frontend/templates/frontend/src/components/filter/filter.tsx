@@ -55,7 +55,7 @@ function PlatformFilter(props: { platforms: PlatformsT, filters: PlatformsFilter
           props.filters.platform = selectedPlatform.id;
           props.filters.filters = res.data.map((f: any) => {
             return {
-              name: f.name,
+              filter_type: f.filter_type,
               // @ts-ignore
               value_format: FilterFormatT[f.value_format]
             }

@@ -5,10 +5,10 @@ from typing import List
 
 from core.platform.supported_platforms import SupportedPlatform
 from core.util.enum import LiteralEnum
-from core.util.serializable import Serializable, EnumSerializable
+from core.util.serializable import Serializable, EnumSerializable, LiteralEnumSerializable
 
 
-class FilterType(EnumSerializable, LiteralEnum):
+class FilterType(LiteralEnumSerializable, LiteralEnum):
     pass
 
 
@@ -21,7 +21,7 @@ class FilterFormat(EnumSerializable, Enum):
 
 @dataclass
 class Filter(Serializable):
-    name: FilterType = None
+    filter_type: FilterType = None
     value_format: FilterFormat = None
     value: str = None
 
