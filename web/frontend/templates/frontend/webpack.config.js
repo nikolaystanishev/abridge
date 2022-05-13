@@ -11,7 +11,7 @@ module.exports = {
     resolve: {
         extensions: [".tsx", ".ts", ".js"],
     },
-    devServer: { contentBase: path.join(__dirname, "src") },
+    devServer: {contentBase: path.join(__dirname, "src")},
     module: {
         rules: [
             {
@@ -32,14 +32,27 @@ module.exports = {
                 test: /\.(jpg|jpeg|png|gif|mp3|svg)$/,
                 use: ["file-loader"],
             },
+            {
+                test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'fonts/',
+                            publicPath: 'static/frontend/fonts/'
+                        }
+                    }
+                ]
+            },
         ],
     },
     plugins: [
         new webpack.DefinePlugin({
             "process.env": {
-              // This has effect on the react lib size
-              NODE_ENV: JSON.stringify("development"),
+                // This has effect on the react lib size
+                NODE_ENV: JSON.stringify("development"),
             },
-          }),
+        }),
     ],
 };
