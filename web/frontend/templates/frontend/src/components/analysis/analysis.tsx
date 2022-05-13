@@ -7,11 +7,12 @@ import {PieChart} from "devextreme-react";
 import {Connector, Font, Label, Series, Size, Title} from "devextreme-react/pie-chart";
 
 
-export function Analysis(props: { filter: PlatformsFilterT[], reload: boolean }) {
+export function Analysis(props: { filter: PlatformsFilterT[], reload: boolean | undefined }) {
   const [analysis, setAnalysis] = React.useState<AnalysisT>();
 
   useEffect(() => {
-    if (props.reload) {
+    if (props.reload !== undefined) {
+      setAnalysis(undefined);
       axios.post('api/analysis', props.filter).then(response => {
         setAnalysis(response.data);
       });

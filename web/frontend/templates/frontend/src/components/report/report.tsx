@@ -6,7 +6,7 @@ import {Analysis} from "../analysis/analysis";
 export function Report() {
 
   const [filter, setFilter] = useState<PlatformsFilterT[]>([]);
-  const [reload, setReload] = useState<boolean>(false);
+  const [reload, setReload] = useState<boolean | undefined>(undefined);
 
   const setAnalyzeData = (data: PlatformsFilterT[]) => {
     setFilter(data);
