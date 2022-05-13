@@ -22,7 +22,8 @@ export function Analysis(props: { filter: PlatformsFilterT[], reload: boolean | 
   return (
     <>
       {analysis && (
-        <Grid container spacing={3} width="0.8" margin="auto" border={1} borderColor="primary.main" borderRadius={2}>
+        <Grid container spacing={3} width="0.8" margin="auto" marginTop={1} marginBottom={1} border={1}
+              borderColor="primary.main" borderRadius={2}>
           <Grid item xs>
             {analysis.data.map((item: DataObjectT) => {
               return (
