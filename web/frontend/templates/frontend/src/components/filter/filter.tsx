@@ -1,4 +1,5 @@
-import {Autocomplete, Box, Button, Grid, TextField} from "@mui/material";
+import {Autocomplete, Box, Button, Grid, IconButton, TextField} from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import {countries, CountryT, FilterFormatT, FilterT, PlatformsFilterT, PlatformsT, PlatformT} from "../../types/types";
 import React, {ChangeEvent, SyntheticEvent, useEffect, useState} from "react";
 import axios from "axios";
@@ -21,20 +22,22 @@ export function Filter(props: { onAnalyze: (data: PlatformsFilterT[]) => void })
     });
   }, []);
 
+  const removeFilter = (orFilter: PlatformsFilterT) => {
+    setOrFilters(orFilters.filter(f => f !== orFilter));
+  }
+
   return (
     <>
       {orFilters.map(orF => {
         return (
-          <PlatformFilter platforms={platforms} filters={orF}/>
+          <PlatformFilter platforms={platforms} filters={orF} removeFilter={removeFilter}/>
         );
       })}
       <Button variant="text"
-        // color="secondary"
               onClick={() => {
                 setOrFilters([...orFilters, {platform: null, filters: []}]);
               }}>or</Button>
       <Button variant="text"
-        // color="secondary"
               onClick={() => {
                 props.onAnalyze(orFilters);
               }}>Analyze</Button>
@@ -43,7 +46,7 @@ export function Filter(props: { onAnalyze: (data: PlatformsFilterT[]) => void })
 }
 
 
-function PlatformFilter(props: { platforms: PlatformsT, filters: PlatformsFilterT }) {
+function PlatformFilter(props: { platforms: PlatformsT, filters: PlatformsFilterT, removeFilter: (orFilter: PlatformsFilterT) => void }) {
   const [selectedPlatform, setSelectedPlatform] = useState<PlatformT>();
   const [loading, setLoading] = useState(false);
 
