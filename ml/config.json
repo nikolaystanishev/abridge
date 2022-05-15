@@ -1565,6 +1565,17 @@
       "batch_size": 256,
       "epochs": 10
     },
-    "//comment-14": "Try batch size stop"
+    "//comment-14": "Try batch size stop",
+    "48": {
+      "id": "48",
+      "dataset": "10",
+      "architecture": "lstm-classifier-10",
+      "loss": "huber_loss",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 100
+    }
   }
 }
