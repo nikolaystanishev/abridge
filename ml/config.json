@@ -1541,6 +1541,30 @@
       "batch_size": 128,
       "epochs": 10
     },
-    "//comment-12": "Try datasets stop"
+    "//comment-12": "Try datasets stop",
+    "//comment-13": "Try batch size start",
+    "46": {
+      "id": "46",
+      "dataset": "9",
+      "architecture": "lstm-classifier-10",
+      "loss": "huber_loss",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 64,
+      "epochs": 10
+    },
+    "47": {
+      "id": "47",
+      "dataset": "9",
+      "architecture": "lstm-classifier-10",
+      "loss": "huber_loss",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 256,
+      "epochs": 10
+    },
+    "//comment-14": "Try batch size stop"
   }
 }
