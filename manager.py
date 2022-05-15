@@ -4,6 +4,7 @@ import os
 from core.platform.twitter.twitter_data_fetcher import TwitterDataFetcher
 from core.util.config import load_config
 from core.util.sh import bootstrap, register_postactions, sh, start_web
+from ml.core.data.combine import combine_datasets
 from ml.core.data.data_processing import DataProcessing
 from ml.core.data.dataset import Dataset
 from ml.core.model.model import Model
@@ -27,6 +28,7 @@ def setup():
     optional.add_argument('-save-env', help='Save conda environment to file.')
     optional.add_argument('-process-data', help='Process dataset defined in ./ml/config.json.')
     optional.add_argument('-train', help='Train model defined in ./ml/config.json.')
+    optional.add_argument('-combine-data', help='Combine datasets.')
 
     return parser
 
@@ -67,6 +69,14 @@ def train(model_ids):
         model.proceed()
 
 
+def combine_data(dataset_ids):
+    config = load_config()
+    dataset_ids = dataset_ids.split(',')
+
+    combine_datasets(config['datasets'][dataset_ids[0]], config['datasets'][dataset_ids[1]],
+                     config['datasets'][dataset_ids[2]])
+
+
 if __name__ == '__main__':
     parser = setup()
     register_postactions()
@@ -84,3 +94,5 @@ if __name__ == '__main__':
         process_data(args.process_data)
     elif args.train:
         train(args.train)
+    elif args.combine_data:
+        combine_data(args.combine_data)

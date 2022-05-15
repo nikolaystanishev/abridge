@@ -1,0 +1,20 @@
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3868591 entries, 0 to 2268590
+Data columns (total 6 columns):
+ #   Column  Dtype  
+---  ------  -----  
+ 0   label   int64  
+ 1   ids     float64
+ 2   date    object 
+ 3   flag    object 
+ 4   user    object 
+ 5   data    object 
+dtypes: float64(1), int64(1), object(4)
+memory usage: 206.6+ MB
+
+   label           ids                          date      flag             user                                                                                                                 data
+0      0  1.467810e+09  Mon Apr 06 22:19:45 PDT 2009  NO_QUERY  _TheSpecialOne_  @switchfoot http://twitpic.com/2y1zl - Awww, that's a bummer.  You shoulda got David Carr of Third Day to do it. ;D
+1      0  1.467811e+09  Mon Apr 06 22:19:49 PDT 2009  NO_QUERY    scotthamilton      is upset that he can't update his Facebook by texting it... and might cry as a result  School today also. Blah!
+2      0  1.467811e+09  Mon Apr 06 22:19:53 PDT 2009  NO_QUERY         mattycus                            @Kenichan I dived many times for the ball. Managed to save 50%  The rest go out of bounds
+3      0  1.467811e+09  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY          ElleCTF                                                                      my whole body feels itchy and like its on fire 
+4      0  1.467811e+09  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY           Karoli      @nationwideclass no, it's not behaving at all. i'm mad. why am i here? because I can't see you all over there. 
