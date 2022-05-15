@@ -1,8 +1,11 @@
 import argparse
 import os
+from typing import List
 
-from core.platform.twitter.twitter_data_fetcher import TwitterDataFetcher
+from core.platform.filter import Filter
+from core.platform.platform_facade import PlatformFacade
 from core.util.config import load_config
+from core.util.serializable import from_json
 from core.util.sh import bootstrap, register_postactions, sh, start_web
 from ml.core.data.combine import combine_datasets
 from ml.core.data.data_processing import DataProcessing
@@ -34,15 +37,11 @@ def setup():
 
 
 def fetch(platform):
-    if platform == 'twitter':
-        fetcher = TwitterDataFetcher()
+    fetcher = PlatformFacade().create_fetcher(platform)
 
-    request = fetcher.get_empty_request()
-    for k in request.keys():
-        print('Insert ' + k.literal + ': ', end='')
-        value = input()
-        if value != '':
-            request[k].extend(value.split('|'))
+    print("Query: ", end='')
+    request = from_json(input(), List[Filter])
+
     print(fetcher.fetch(request))
 
 

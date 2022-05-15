@@ -6,9 +6,7 @@ from threading import Event
 
 child_processes = []
 
-
-def get_file_dir():
-    return os.path.dirname(os.path.realpath(__file__))
+current_file_dir = os.path.dirname(os.path.realpath(__file__))
 
 
 def sh(command, kill=False):
@@ -18,13 +16,18 @@ def sh(command, kill=False):
 
 
 def start_web(wait=False):
-    sh(['python3', get_file_dir() + '/../../web/manage.py', 'runserver'], True)
+    sh(['python3', current_file_dir + '/../../web/manage.py', 'runserver'], True)
     if wait:
         Event().wait()
 
 
 def bootstrap():
-    sh(['python3', get_file_dir() + '/../../web/manage.py', 'migrate'])
+    sh(['python3', current_file_dir + '/../../web/manage.py', 'migrate'])
+
+    sh(['cd', current_file_dir + '/../../web/frontend/templates/frontend'])
+    sh(['rm', '-rf', 'node_modules'])
+    sh(['yarn', 'install'])
+    sh(['cd', '-'])
 
 
 def register_postactions():

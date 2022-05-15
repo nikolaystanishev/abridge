@@ -22,13 +22,13 @@ class PlatformFacade:
             raise UnsupportedOperation("Platform not supported")
 
     def analyze(self, filters: List[PlatformFilter]):
-        data = seq(filters).flat_map(lambda f: self.__create_fetcher(f.platform).fetch(f.filters)).distinct().to_list()
+        data = seq(filters).flat_map(lambda f: self.create_fetcher(f.platform).fetch(f.filters)).distinct().to_list()
         analysis = Analysis(data)
         Models(analysis).process()
 
         return analysis
 
-    def __create_fetcher(self, platform):
+    def create_fetcher(self, platform):
         if platform == SupportedPlatform.TWITTER:
             return TwitterDataFetcher()
         else:
