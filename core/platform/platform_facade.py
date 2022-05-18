@@ -8,16 +8,25 @@ from core.platform.filter import PlatformFilter
 from core.platform.supported_platforms import SupportedPlatform
 from core.platform.twitter.twitter_data_fetcher import TwitterDataFetcher
 from core.platform.twitter.twitter_filter import TwitterFilters
-from core.processing.models import Models
+from core.processing.model import Models
 from core.util.singleton import Singleton
+
+filters = {
+    SupportedPlatform.TWITTER: TwitterFilters,
+}
+
+fetchers = {
+    SupportedPlatform.TWITTER: TwitterDataFetcher,
+}
 
 
 class PlatformFacade:
     __metaclass__ = Singleton
 
     def get_filter(self, platform):
-        if SupportedPlatform[platform] == SupportedPlatform.TWITTER:
-            return TwitterFilters()
+        platform = SupportedPlatform[platform]
+        if platform in filters:
+            return filters[platform]()
         else:
             raise UnsupportedOperation("Platform not supported")
 
@@ -29,7 +38,7 @@ class PlatformFacade:
         return analysis
 
     def create_fetcher(self, platform):
-        if platform == SupportedPlatform.TWITTER:
-            return TwitterDataFetcher()
+        if platform in fetchers:
+            return fetchers[platform]()
         else:
             raise UnsupportedOperation("Platform not supported")

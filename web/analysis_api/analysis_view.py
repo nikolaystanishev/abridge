@@ -10,4 +10,4 @@ class AnalysisView(RestView):
     def post(self, request, format=None):
         filters = [from_json(f, PlatformFilter, f['platform']) for f in request.data]
 
-        return Response(self.platform_facade.analyze(filters))
+        return Response(self._platform_facade.analyze(filters))

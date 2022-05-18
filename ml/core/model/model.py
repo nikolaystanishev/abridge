@@ -48,18 +48,18 @@ class Model:
         )
 
     def proceed(self):
-        self.summary()
-        self.compile()
-        self.fit()
-        self.save()
+        self.__summary()
+        self.__compile()
+        self.__fit()
+        self.__save()
 
-    def summary(self):
+    def __summary(self):
         self.model.summary()
 
         with open(os.path.join(current_file_path, '../../results/model-summary/model-' + self.UUId), 'w') as f:
             self.model.summary(print_fn=lambda x: f.write(x + '\n'))
 
-    def compile(self):
+    def __compile(self):
         self.model.compile(
             loss=self.loss,
             optimizer=self.optimizer.get(),
@@ -70,7 +70,7 @@ class Model:
     def f1_score():
         return F1Score(num_classes=1, threshold=0.5)
 
-    def fit(self):
+    def __fit(self):
         self.model_dir = os.path.join(current_file_path, '../../results/models/' + self.UUId)
         os.mkdir(self.model_dir)
 
@@ -87,14 +87,14 @@ class Model:
             ]
         )
 
-    def evaluate(self):
+    def __evaluate(self):
         return self.model.evaluate(self.dataset.X_test, self.dataset.Y_test)
 
-    def save(self):
+    def __save(self):
         self.model.save(self.model_dir + '/model.h5')
         results = pd.read_csv(os.path.join(current_file_path, '../../results/results.tsv'), sep='\t', header=0)
 
-        evaluation = self.evaluate()
+        evaluation = self.__evaluate()
 
         result = {
             'UUID': self.UUId,
