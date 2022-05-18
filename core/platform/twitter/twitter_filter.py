@@ -13,7 +13,6 @@ class TwitterFilters(Filters):
             Filter(TwitterFilterTypes.TO_USER, FilterFormat.TEXT),
             Filter(TwitterFilterTypes.MENTION_USER, FilterFormat.TEXT),
             Filter(TwitterFilterTypes.URL, FilterFormat.TEXT),
-            Filter(TwitterFilterTypes.CONVERSATION, FilterFormat.TEXT),
             Filter(TwitterFilterTypes.PLACE, FilterFormat.TEXT),
             Filter(TwitterFilterTypes.PLACE_COUNTRY, FilterFormat.COUNTRY),
             Filter(TwitterFilterTypes.SINCE, FilterFormat.DATE),
@@ -29,9 +28,8 @@ class TwitterFilterTypes(FilterType):
     TO_USER = ('To User', 'to:')
     MENTION_USER = ('Mention User', '@')
     URL = ('URL', 'url:')
-    CONVERSATION = ('Conversation ID', 'conversation_id:')
     PLACE = ('Place', 'place:')
     PLACE_COUNTRY = ('Country', 'place_country:')
     SINCE = ('Since', None)
     UNTIL = ('Until', None)
-    EXCLUDE_REPLIES = ('Exclude Replies', '-filter:replies')
+    EXCLUDE_REPLIES = ('Exclude Replies', '-is:reply')
