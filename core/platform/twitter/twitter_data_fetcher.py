@@ -17,17 +17,15 @@ class TwitterDataFetcher(DataFetcher):
     def fetch(self, query_filter):
         query = self.__build_query(query_filter)
         since = self.__get_field_value(query_filter, TwitterFilterTypes.SINCE)
+        since = since + 'T00:00:00Z' if since is not None else None
         until = self.__get_field_value(query_filter, TwitterFilterTypes.UNTIL)
+        until = until + 'T23:59:59Z' if until is not None else None
 
         if query.strip() == '':
             return []
 
         return seq(self.__search_tweets(query, since, until, "recent").data).map(
             lambda tweet: DataObject(SupportedPlatform.TWITTER, tweet.id, tweet.text))
-
-        # return seq(itertools.chain.from_iterable(zip(self.__search_tweets(query, since, until, "recent"),
-        #                                              self.__search_tweets(query, since, until, "all")))).map(
-        #     lambda tweet: DataObject(SupportedPlatform.TWITTER, tweet.id, tweet.text))
 
     def __search_tweets(self, query, since, until, query_type):
         return self.__api.search_tweets(query=query, start_time=since, end_time=until, max_results=100,
