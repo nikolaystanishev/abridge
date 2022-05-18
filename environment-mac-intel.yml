@@ -252,4 +252,3 @@ dependencies:
     - typing-inspect==0.7.1
     - werkzeug==2.1.1
     - wrapt==1.14.0
-prefix: /Users/nstanishev/opt/anaconda3/envs/abridge
