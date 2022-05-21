@@ -334,6 +334,60 @@ def lstm_classifier_10(input_shape, embedding_matrix=None):
     return model
 
 
+def bi_lstm_classifier_2(input_shape, embedding_matrix):
+    from keras.layers import Dense, Dropout, InputLayer, Embedding, Masking, LSTM, Activation
+    from keras.models import Sequential
+    model = Sequential()
+
+    model.add(InputLayer(name='inputs', input_shape=[input_shape]))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(Bidirectional(LSTM(64)))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
+def lstm_classifier_11(input_shape, embedding_matrix=None):
+    model = Sequential()
+
+    model.add(InputLayer(name='inputs', input_shape=[input_shape]))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(LSTM(64))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.3))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
+def lstm_classifier_12(input_shape, embedding_matrix=None):
+    model = Sequential()
+
+    model.add(InputLayer(name='inputs', input_shape=[input_shape]))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(LSTM(64, activation='relu', return_sequences=True))
+    model.add(LSTM(64, activation='relu', return_sequences=True))
+    model.add(LSTM(64, activation='relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
 architectures = {
     'lstm-classifier-1': lstm_classifier_1,
     'lstm-classifier-2': lstm_classifier_2,
@@ -354,6 +408,9 @@ architectures = {
     'lstm-classifier-8': lstm_classifier_8,
     'lstm-classifier-9': lstm_classifier_9,
     'lstm-classifier-10': lstm_classifier_10,
+    'bi-lstm-classifier-2': bi_lstm_classifier_2,
+    'lstm-classifier-11': lstm_classifier_11,
+    'lstm-classifier-12': lstm_classifier_12,
 }
 
 

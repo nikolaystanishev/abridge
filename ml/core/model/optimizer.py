@@ -1,3 +1,4 @@
+import keras as K
 from tensorflow.python.keras.optimizer_v2.adagrad import Adagrad
 from tensorflow.python.keras.optimizer_v2.adam import Adam
 from tensorflow.python.keras.optimizer_v2.ftrl import Ftrl
@@ -6,7 +7,7 @@ from tensorflow.python.keras.optimizer_v2.rmsprop import RMSprop
 
 optimizers = {
     'adam': Adam,
-    'adam-keras': Adam,
+    'adam-keras': K.optimizers.Adam,
     'rmsprop': RMSprop,
     'adagard': Adagrad,
     'sgd': SGD,
