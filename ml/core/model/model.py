@@ -21,16 +21,16 @@ class Model:
     model.proceed()
     '''
 
-    def __init__(self, ID, dataset, architecture, input_shape, loss, optimizer, batch_size, epochs):
+    def __init__(self, ID, dataset: Dataset, architecture, input_shape, loss, optimizer: Optimizer, batch_size, epochs):
         self.id = ID
         self.UUId = str(uuid.uuid4())
-        self.dataset = dataset
+        self.dataset: Dataset = dataset
         self.dataset.load_processed()
         self.architecture = architecture
         self.input_shape = input_shape
         self.model = ArchitectureFactory.create(architecture, input_shape, self.dataset.embedding)
         self.loss = loss
-        self.optimizer = optimizer
+        self.optimizer: Optimizer = optimizer
         self.batch_size = batch_size
         self.epochs = epochs
 

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
+from typing import List
 
 from core.platform.supported_platforms import SupportedPlatform
 from core.util.serializable import Serializable, EnumSerializable
@@ -35,5 +36,5 @@ class DataObject(Serializable):
 
 @dataclass
 class Analysis(Serializable):
-    data: DataObject
+    data: List[DataObject]
     summary: str = None

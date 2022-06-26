@@ -8,4 +8,4 @@ from core.platform.platform_facade import PlatformFacade
 class RestView(APIView, ABC):
 
     def __init__(self):
-        self._platform_facade = PlatformFacade()
+        self._platform_facade: PlatformFacade = PlatformFacade()

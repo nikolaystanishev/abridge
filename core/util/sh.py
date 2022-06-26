@@ -21,15 +21,6 @@ def start_web(wait=False):
         Event().wait()
 
 
-def bootstrap():
-    sh(['python3', current_file_dir + '/../../web/manage.py', 'migrate'])
-
-    sh(['cd', current_file_dir + '/../../web/frontend/templates/frontend'])
-    sh(['rm', '-rf', 'node_modules'])
-    sh(['yarn', 'install'])
-    sh(['cd', '-'])
-
-
 def register_postactions():
     def cleanup():
         for pid in child_processes:

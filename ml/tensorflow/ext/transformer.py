@@ -57,8 +57,7 @@ class TokenAndPositionEmbedding(Layer):
         else:
             self.token_emb = Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1],
                                        weights=[embedding_matrix], trainable=False, mask_zero=True)
-            self.pos_emb = Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
-                                     trainable=False, mask_zero=True)
+            self.pos_emb = Embedding(input_dim=maxlen, output_dim=embed_dim)
 
     def get_config(self):
         config = super().get_config()

@@ -17,6 +17,8 @@ from tensorflow.keras.preprocessing import sequence
 from tensorflow.keras.preprocessing.text import Tokenizer
 from wordcloud import WordCloud
 
+from ml.core.data.dataset import Dataset
+
 le = LabelEncoder()
 PUNCTUATION_LIST = list(string.punctuation)
 stopword = nltk.corpus.stopwords.words('english')
@@ -28,9 +30,9 @@ tok = Tokenizer()
 
 class DataProcessing:
 
-    def __init__(self, dataset, is_runtime=False):
-        self.__dataset = dataset
-        self.__is_runtime = is_runtime
+    def __init__(self, dataset: Dataset, is_runtime: bool = False):
+        self.__dataset: Dataset = dataset
+        self.__is_runtime: bool = is_runtime
         self.PROCEDURES = {
             'drop_unused_columns': self.__drop_unused_columns,
             'encode_labels': self.encode_labels,

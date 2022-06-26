@@ -388,6 +388,63 @@ def lstm_classifier_12(input_shape, embedding_matrix=None):
     return model
 
 
+def transformer_classifier_6(input_shape, embedding_matrix=None):
+    embed_dim = 200  # Embedding size for each token
+    num_heads = 2  # Number of attention heads
+    ff_dim = 64  # Hidden layer size in feed forward network inside transformer
+
+    model = Sequential()
+
+    model.add(Input(name='inputs', shape=[input_shape]))
+    model.add(TokenAndPositionEmbedding(input_shape, embedding_matrix.shape[0], embed_dim, embedding_matrix))
+    model.add(Masking(mask_value=0.0))
+    model.add(TransformerBlock(embed_dim, num_heads, ff_dim))
+    model.add(GlobalAveragePooling1D())
+    model.add(Dropout(0.1))
+    model.add(Dense(20, activation="relu"))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
+def bi_lstm_classifier_3(input_shape, embedding_matrix):
+    from keras.layers import Dense, Dropout, InputLayer, Embedding, Masking, LSTM, Activation
+    from keras.models import Sequential
+    model = Sequential()
+
+    model.add(InputLayer(name='inputs', input_shape=[input_shape]))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(Bidirectional(LSTM(64, activation='leaky_relu', kernel_regularizer='l1_l2')))
+    model.add(Dropout(0.6))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
+def bi_lstm_classifier_4(input_shape, embedding_matrix):
+    from keras.layers import Dense, Dropout, InputLayer, Embedding, Masking, LSTM, Activation
+    from keras.models import Sequential
+    model = Sequential()
+
+    model.add(InputLayer(name='inputs', input_shape=[input_shape]))
+    model.add(Embedding(embedding_matrix.shape[0], embedding_matrix.shape[1], weights=[embedding_matrix],
+                        input_length=input_shape, trainable=False,
+                        mask_zero=True))
+    model.add(Masking(mask_value=0.0))
+    model.add(Bidirectional(LSTM(64, activation='relu', kernel_regularizer='l2')))
+    model.add(Dropout(0.5))
+    model.add(Dense(1))
+    model.add(Activation('sigmoid'))
+
+    return model
+
+
 architectures = {
     'lstm-classifier-1': lstm_classifier_1,
     'lstm-classifier-2': lstm_classifier_2,
@@ -411,6 +468,9 @@ architectures = {
     'bi-lstm-classifier-2': bi_lstm_classifier_2,
     'lstm-classifier-11': lstm_classifier_11,
     'lstm-classifier-12': lstm_classifier_12,
+    'transformer-classifier-6': transformer_classifier_6,
+    'bi-lstm-classifier-3': bi_lstm_classifier_3,
+    'bi-lstm-classifier-4': bi_lstm_classifier_4,
 }
 
 

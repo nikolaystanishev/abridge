@@ -1,3 +1,5 @@
+from typing import List
+
 from core.platform.filter import Filter, FilterFormat, Filters, FilterType
 from core.util.singleton import Singleton
 
@@ -5,7 +7,7 @@ from core.util.singleton import Singleton
 class TwitterFilters(Filters):
     __metaclass__ = Singleton
 
-    def get_filters(self):
+    def get_filters(self) -> List[Filter]:
         return [
             Filter(TwitterFilterTypes.KEYWORD, FilterFormat.TEXT),
             Filter(TwitterFilterTypes.HASHTAG, FilterFormat.TEXT),

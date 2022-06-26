@@ -18,7 +18,7 @@ class EnumSerializable:
         return self.name
 
 
-class LiteralEnumSerializable:
+class LiteralEnumSerializable(EnumSerializable):
 
     def tolist(self):
         return {"name": self.name, "literal": self.literal}

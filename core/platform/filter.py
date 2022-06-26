@@ -35,5 +35,5 @@ class PlatformFilter(Serializable):
 class Filters(ABC):
 
     @abstractmethod
-    def get_filters(self):
+    def get_filters(self) -> List[Filter]:
         raise NotImplementedError()

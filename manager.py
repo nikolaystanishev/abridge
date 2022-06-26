@@ -6,7 +6,7 @@ from core.platform.filter import Filter
 from core.platform.platform_facade import PlatformFacade
 from core.util.config import load_config
 from core.util.serializable import from_json
-from core.util.sh import bootstrap, register_postactions, sh, start_web
+from core.util.sh import register_postactions, sh, start_web
 from ml.core.data.combine import combine_datasets
 from ml.core.data.data_processing import DataProcessing
 from ml.core.data.dataset import Dataset
@@ -18,20 +18,18 @@ current_file_path = os.path.dirname(__file__)
 def setup():
     parser = argparse.ArgumentParser(description='''
     abridge:
-        Control every possible operation for this project.
+        User control manager.
     ''')
     parser._action_groups.pop()
 
-    # required = parser.add_argument_group('required arguments')
     optional = parser.add_argument_group('optional arguments')
 
-    optional.add_argument('-bootstrap', help='Bootstrap applications.', action='store_true')
     optional.add_argument('-start-web', help='Start server.', action='store_true')
-    optional.add_argument('-fetch', help='Fetch data API.', metavar='PLATFORM', choices=['twitter'])
-    optional.add_argument('-save-env', help='Save conda environment to file.')
-    optional.add_argument('-process-data', help='Process dataset defined in ./ml/config.json.')
-    optional.add_argument('-train', help='Train model defined in ./ml/config.json.')
-    optional.add_argument('-combine-data', help='Combine datasets.')
+    optional.add_argument('-fetch', help='Fetch data API.', metavar='<QUERY>')
+    optional.add_argument('-save-env', help='Save conda environment to file.', metavar='<PATH>')
+    optional.add_argument('-process-data', help='Process dataset defined in ./ml/config.json.', metavar='<DATASET_ID>')
+    optional.add_argument('-train', help='Train model defined in ./ml/config.json.', metavar='<MODEL_ID>')
+    optional.add_argument('-combine-data', help='Combine datasets.', metavar='<LEFT_DATASET_ID,RIGHT_DATASET_ID>')
 
     return parser
 
@@ -81,9 +79,7 @@ if __name__ == '__main__':
     register_postactions()
     args = parser.parse_args()
 
-    if args.bootstrap:
-        bootstrap()
-    elif args.start_web:
+    if args.start_web:
         start_web(True)
     elif args.fetch:
         fetch(args.fetch)
