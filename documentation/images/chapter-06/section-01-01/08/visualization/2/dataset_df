@@ -1,0 +1,16 @@
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 1600000 entries, 0 to 1599999
+Data columns (total 2 columns):
+ #   Column  Non-Null Count    Dtype 
+---  ------  --------------    ----- 
+ 0   target  1600000 non-null  int64 
+ 1   text    1600000 non-null  object
+dtypes: int64(1), object(1)
+memory usage: 24.4+ MB
+
+   target                                                                                                                text
+0       0                        switchfoot     awww  that is a bummer   you shoulda got david carr of third day to do it   d
+1       0    is upset that he cannot update his facebook by texting it    and might cry as a result  school today also  blah 
+2       0                            kenichan i dived many times for the ball  managed to save      the rest go out of bounds
+3       0                                                                     my whole body feels itchy and like its on fire 
+4       0   nationwideclass no  it is not behaving at all  i am mad  why am i here  because i cannot see you all over there  

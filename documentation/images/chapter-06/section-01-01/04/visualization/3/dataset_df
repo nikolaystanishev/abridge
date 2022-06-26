@@ -1,0 +1,16 @@
+<class 'pandas.core.frame.DataFrame'>
+RangeIndex: 2268591 entries, 0 to 2268590
+Data columns (total 2 columns):
+ #   Column  Dtype 
+---  ------  ----- 
+ 0   data    object
+ 1   label   int64 
+dtypes: int64(1), object(1)
+memory usage: 34.6+ MB
+
+                                                                                                   data  label
+0  [vinco, tresorpack, difficulty, object, disassemble, reassemble, wooden, pieces, beautiful, wo, url]      0
+1                                                        [glad, dot, taks, tomorrow, thankful, startho]      0
+2                                                [vs, celtics, regular, season, fucked, play, playoffs]      0
+3                                                            [user, could, actually, kill, girl, sorry]      0
+4                                                       [user, user, user, find, hard, believe, afraid]      0

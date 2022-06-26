@@ -1,0 +1,20 @@
+<class 'pandas.core.frame.DataFrame'>
+Int64Index: 3868591 entries, 0 to 2268590
+Data columns (total 6 columns):
+ #   Column  Dtype  
+---  ------  -----  
+ 0   label   int64  
+ 1   ids     float64
+ 2   date    object 
+ 3   flag    object 
+ 4   user    object 
+ 5   data    object 
+dtypes: float64(1), int64(1), object(4)
+memory usage: 206.6+ MB
+
+   label           ids                          date      flag             user                                                                                       data
+0      0  1.467810e+09  Mon Apr 06 22:19:45 PDT 2009  NO_QUERY  _TheSpecialOne_                          [switchfoot, awww, bummer, shoulda, got, david, carr, third, day]
+1      0  1.467811e+09  Mon Apr 06 22:19:49 PDT 2009  NO_QUERY    scotthamilton  [upset, cannot, update, facebook, texting, might, cry, result, school, today, also, blah]
+2      0  1.467811e+09  Mon Apr 06 22:19:53 PDT 2009  NO_QUERY         mattycus                      [kenichan, dived, many, times, ball, managed, save, rest, go, bounds]
+3      0  1.467811e+09  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY          ElleCTF                                                    [whole, body, feels, itchy, like, fire]
+4      0  1.467811e+09  Mon Apr 06 22:19:57 PDT 2009  NO_QUERY           Karoli                                              [nationwideclass, behaving, mad, cannot, see]
