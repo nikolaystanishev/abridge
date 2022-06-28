@@ -1,7 +1,7 @@
 {
   "runtime": {
-    "dataset": "9",
-    "model": "1beaa771-c888-438a-b480-024bbd7e6d70"
+    "dataset": "10",
+    "model": "de318c1a-129f-4fe9-859c-c04a2f06a7a3"
   },
   "datasets": {
     "1": {
@@ -1696,6 +1696,39 @@
       "architecture": "lstm-classifier-12",
       "loss": "huber_loss",
       "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 100
+    },
+    "55": {
+      "id": "55",
+      "dataset": "8",
+      "architecture": "transformer-classifier-6",
+      "loss": "huber_loss",
+      "optimizer": "adam",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 100
+    },
+    "56": {
+      "id": "56",
+      "dataset": "10",
+      "architecture": "bi-lstm-classifier-3",
+      "loss": "huber_loss",
+      "optimizer": "adam-keras",
+      "learning_rate": null,
+      "decay": null,
+      "batch_size": 128,
+      "epochs": 100
+    },
+    "57": {
+      "id": "57",
+      "dataset": "10",
+      "architecture": "bi-lstm-classifier-4",
+      "loss": "huber_loss",
+      "optimizer": "adam-keras",
       "learning_rate": null,
       "decay": null,
       "batch_size": 128,
