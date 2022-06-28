@@ -157,3 +157,17 @@ yarn-error.log*
 ### IDE/Editor ###
 .vscode/
 .idea/
+
+# documentation
+*.md5
+documentation.aux
+documentation.auxlock
+documentation.fdb_latexmk
+documentation.fls
+documentation.loa
+documentation.lof
+documentation.lol
+documentation.lot
+documentation.out
+documentation.synctex.gz
+documentation.toc
